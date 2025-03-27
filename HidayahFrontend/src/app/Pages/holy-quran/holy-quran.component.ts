@@ -13,10 +13,10 @@ export class HolyQuranComponent {
   constructor(private router:Router,private searchService: SearchService){}
 
   navigateToNooraniPrimer(){
-    this.router.navigate(['/nooraniPrimer'],{ queryParams: { ref: 'ksdjfihuwasdasd&%9348@#$%&^9sj@f93d' }})
+    this.router.navigate(['hidayah/nooraniPrimer'],{ queryParams: { ref: 'ksdjfihuwasdasd&%9348@#$%&^9sj@f93d' }})
   }
   navigateToHidayahHome(){
-    this.router.navigate(['/hidayahHome'],{ queryParams: { ref: 'ksd&$&^%*afasdaauw&%9348@#$%&^9sj@f93d' }})
+    this.router.navigate(['/hidayah/home'],{ queryParams: { ref: 'ksd&$&^%*afasdaauw&%9348@#$%&^9sj@f93d' }})
 
   }
   onSearch() {

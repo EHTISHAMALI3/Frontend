@@ -137,7 +137,9 @@
                         </div>
 
                               
-                        <owl-carousel-o [options]="customOptions">
+                        <!-- <owl-carousel-o #owlCarousel [options]="customOptions" (translated)="getPassedData($event)"> -->
+                            <owl-carousel-o #owlCarousel [options]="customOptions" >
+
                             <ng-container *ngFor="let slide of widgets; let i = index">
                               <ng-template carouselSlide  >
                                 <div 

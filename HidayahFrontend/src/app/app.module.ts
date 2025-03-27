@@ -6,9 +6,14 @@ import { SigninComponent } from "./Auth/signin/signin.component";
 import { RouterModule } from "@angular/router";
 import { PagesModule } from "./Pages/pages.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
-import { HidayahHomeComponent } from "./Layout/hidayah-home/hidayah-home.component";
+import { LayoutComponent } from "./Layout/layout/layout.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastrModule } from 'ngx-toastr';
+import { AuthInterceptor } from "./Interceptors/auth.interceptor";
+import { AuthGuard } from "./Guards/auth.guard";
+import { AuthService } from "./Services/auth.service";
 
 
 
@@ -18,19 +23,26 @@ import { HidayahHomeComponent } from "./Layout/hidayah-home/hidayah-home.compone
     declarations: [
       AppComponent,
       SigninComponent,
-      HidayahHomeComponent
+      LayoutComponent
     ],
     imports: [
+      BrowserAnimationsModule,
       BrowserModule,
       CommonModule,
       FormsModule,
       ReactiveFormsModule,
       AppRoutingModule,
       PagesModule,
-      HttpClientModule
+      HttpClientModule,
+      ToastrModule.forRoot({
+        timeOut: 1000,
+      }),
+
     ],
     exports:[RouterModule],
     providers: [
+      AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     ],
     bootstrap: [AppComponent]
   })

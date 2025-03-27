@@ -61,47 +61,6 @@
 </head>
 <body>
   <app-root></app-root>
-  <!-- <script>
-    $(document).ready(function () {
-        // Initialize Slick
-        $('.haroof-tahaji-container').slick({
-            dots: false,
-            infinite: false,
-            speed: 300,
-            rtl: true,
-            slidesToShow: 4,
-            slidesToScroll: 2,
-        });
-
-        let $items = $('.haroof-tahaji-items'); // Get all items
-
-        // Set initial state - first item is completed (green), second item is clickable (red border)
-        $items.eq(0).addClass('completed'); 
-        $items.css("pointer-events", "none"); // Disable all items
-        $items.eq(1).css("pointer-events", "auto").addClass('next'); // Enable next item
-
-        // Click event for activating index-wise
-        $('.haroof-tahaji-container').on('click', '.haroof-tahaji-items', function () {
-            let index = $items.index(this); // Get clicked item's index
-
-            // Ensure previous items are completed before proceeding
-            if (index === 0 || $items.eq(index - 1).hasClass('completed')) {
-                // Mark current as completed (green)
-                $(this).removeClass('next').addClass('completed');
-
-                // Enable and highlight the next item
-                let $nextItem = $items.eq(index + 1);
-                if ($nextItem.length) {
-                    $nextItem.css("pointer-events", "auto").addClass('next');
-                }
-            }
-        });
-    });
-</script>  -->
-
-
-
-
 
 </body>
 </html>

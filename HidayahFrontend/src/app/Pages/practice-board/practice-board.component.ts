@@ -1,52 +1,61 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { ALPHA_BETS } from '../alphabet';
+import { ALPHA_BETS, COMPLETED_SLIDES } from '../SHARED';
+import { CarouselComponent, SlidesOutputData } from 'ngx-owl-carousel-o';
 @Component({
   selector: 'app-practice-board',
   templateUrl: './practice-board.component.html',
   styleUrl: './practice-board.component.css'
 })
-export class PracticeBoardComponent implements OnInit, AfterViewInit{
-  widgets =ALPHA_BETS
+export class PracticeBoardComponent implements OnInit{
+  @ViewChild('owlCarousel', { static: false }) owlCarousel!: CarouselComponent;
+
+  customOptions:any;
+  widgets =ALPHA_BETS;
+  completedSlides=COMPLETED_SLIDES
   svg!:SafeHtml;
   svgIcons: SafeHtml[] = [];
   defaultPracticeBoardSvg:boolean=true
   otherPracticeBoardSvg:boolean=false;
   selectedSlide = ALPHA_BETS[0]; // Default selection
   slides = [1,2,3,4,5,6,7,8,9,10];
-  completedSlides: boolean[] = [true, false, false, false, false, false,false, false, false, false, false,false, false, false, false, false,false, false, false, false, false,false, false, false, false, false,false, false, false, false]; // First slide unlocked
-  customOptions = {
-    loop: false, // Stops looping (prevents wrap-around)
-    margin: 10,
-    nav: false,
-    dots: false,
-    autoplay: false,
-    autoplayTimeout: 3000,
-    autoplayHoverPause: true,
-    rtl: true, // Moves only right to left
-    mouseDrag: true, // Disables dragging
-    touchDrag: true, // Disables swiping
-    pullDrag: true, // Prevents pulling slides back
-    responsive: {
-      0: { items: 2 },
-      600: { items: 4 },
-      1000: { items: 8 }
-    }
-  };
+  activeSlides!: SlidesOutputData;
+
 
     constructor(private router:Router,private sanitizer: DomSanitizer){}
     ngOnInit(): void {
       this.svgIcons = ALPHA_BETS.map(svg => this.sanitizer.bypassSecurityTrustHtml(svg.svg));
-    }
-    ngAfterViewInit(): void {
-      
+      this.customOptions  = {
+        loop: false, // Stops looping (prevents wrap-around)
+        margin: 10,
+        nav: false,
+        dots: false,
+        autoplay: false,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        rtl: true, // Moves only right to left
+        mouseDrag: true, // Disables dragging
+        touchDrag: true, // Disables swiping
+        pullDrag: true, // Prevents pulling slides back
+        responsive: {
+          0: { items: 2 },
+          600: { items: 4 },
+          1000: { items: 8 }
+        }
+      };
+            // Reset letters to initial state
+            this.completedSlides = this.completedSlides.map((_, index) => index === 0);
+  
+            // Reset selected slide
+            this.selectedSlide = ALPHA_BETS[0];
     }
     navigateToHolyQuran(){
-      this.router.navigate(['/holyQuran'],{ queryParams: { ref: 'ksdjfihuwasdasd&%9348@#$%&^9sj@f93d' }})
+      this.router.navigate(['hidayah/holyQuran'],{ queryParams: { ref: 'ksdjfihuwasdasd&%9348@#$%&^9sj@f93d' }})
     }
     navigateToHidayahHome(){
-      this.router.navigate(['/hidayahHome'],{ queryParams: { ref: 'ksd&$&^%*afasdaauw&%9348@#$%&^9sj@f93d' }})
+      this.router.navigate(['hidayah/home'],{ queryParams: { ref: 'ksd&$&^%*afasdaauw&%9348@#$%&^9sj@f93d' }})
+
     }
    
   toggleClass(index: number) {
@@ -86,6 +95,8 @@ if (this.selectedSlide === slide) {
       return;
       // this.sanitizedSvg = null; // Remove SVG if clicked again
     } else {
+      this.owlCarousel.next(); // ✅ Move to next slide
+
       this.selectedSlide = slide;
       this.defaultPracticeBoardSvg=false
       this.otherPracticeBoardSvg=true;
@@ -138,25 +149,38 @@ if (this.selectedSlide === slide) {
   checkCompletionStatus() {
     this.allLettersCompleted = this.completedSlides.every(status => status);
   }
-  
+  // slidesStore!: any[];
+  // getPassedData(data: SlidesOutputData) {
+  //   this.activeSlides = data;
+  //   console.log(this.activeSlides);
+  // }
   
   practiceAgain() {
     if (this.allLettersCompleted) {
-      this.attemptCount++; // Increase attempt count
-      console.log("✅ All letters completed! Attempt count:", this.attemptCount);
-  
-      // Reset letters to initial state
+      console.log("✅ Resetting Practice Board...");
+
+      // Reset slide completion tracking
       this.completedSlides = this.completedSlides.map((_, index) => index === 0);
-  
+
       // Reset selected slide
       this.selectedSlide = ALPHA_BETS[0];
-  
+
       // Reset board state
       this.defaultPracticeBoardSvg = true;
       this.otherPracticeBoardSvg = false;
-  
+
       // Reset completion status
       this.allLettersCompleted = false;
+
+      // ✅ Move to the FIRST SLIDE (Index 0)
+      setTimeout(() => {
+        if (this.owlCarousel) {
+          console.log("🎯 Moving to slide 0...");
+          this.owlCarousel.to('owl-slide-0'); // ✅ Move to slide 0 with smooth 500ms transition
+        } else {
+          console.error("❌ Owl Carousel reference not found!");
+        }
+      }, 300); // Small delay for smooth transition
     }
   }
   

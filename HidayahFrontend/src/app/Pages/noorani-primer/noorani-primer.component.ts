@@ -12,13 +12,13 @@ export class NooraniPrimerComponent {
 
   constructor(private router:Router,private searchService: SearchService){}
   navigateToPracticeBoard(){
-    this.router.navigate(['practiceBoard'],{ queryParams: { ref: 'safa4989348sjkfjs&%9348@#$%&^9sj@f93449twssgsd' }})
+    this.router.navigate(['hidayah/practiceBoard'],{ queryParams: { ref: 'safa4989348sjkfjs&%9348@#$%&^9sj@f93449twssgsd' }})
   }
   navigateToHolyQuran(){
-    this.router.navigate(['/holyQuran'],{ queryParams: { ref: 'ksdjfihuwasdasd&%9348@#$%&^9sj@f93d' }})
+    this.router.navigate(['hidayah/holyQuran'],{ queryParams: { ref: 'ksdjfihuwasdasd&%9348@#$%&^9sj@f93d' }})
   }
   navigateToHidayahHome(){
-    this.router.navigate(['/hidayahHome'],{ queryParams: { ref: 'ksd&$&^%*afasdaauw&%9348@#$%&^9sj@f93d' }})
+    this.router.navigate(['hidayah/home'],{ queryParams: { ref: 'ksd&$&^%*afasdaauw&%9348@#$%&^9sj@f93d' }})
   }
   onSearch() {
     this.searchService.search(this.searchQuery);

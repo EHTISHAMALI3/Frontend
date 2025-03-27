@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 
 import { PagesRoutingModule } from './pages-routing.module';
@@ -9,16 +8,17 @@ import { PracticeBoardComponent } from './practice-board/practice-board.componen
 import { FormsModule } from '@angular/forms';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { HttpClientModule } from '@angular/common/http';
+import { HidayahHomeComponent } from './hidayah-home/hidayah-home.component';
 
 
 @NgModule({
   declarations: [
     HolyQuranComponent,
     NooraniPrimerComponent,
-    PracticeBoardComponent
+    PracticeBoardComponent,
+    HidayahHomeComponent
   ],
   imports: [
-   BrowserAnimationsModule ,
     CommonModule,
     FormsModule,
     PagesRoutingModule,
