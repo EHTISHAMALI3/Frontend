@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors }
 import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-signin',
@@ -12,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class SigninComponent implements OnInit{
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder,private router:Router,private toastr: ToastrService,private authService:AuthService) {
+  constructor(private fb: FormBuilder,private router:Router,private toastr: ToastrService,private authService:AuthService,private spinner: NgxSpinnerService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
       password: [
@@ -30,13 +31,23 @@ export class SigninComponent implements OnInit{
     
   }
   onSubmit() {
+    this.spinner.show(); // Show loader before making the request
+  
     this.authService.signin(this.loginForm.value.email, this.loginForm.value.password).subscribe({
       next: () => {
-        this.router.navigate(['/hidayah/home'])
+        setTimeout(() => {
+          this.spinner.hide(); // Hide loader after a delay
+          this.router.navigate(['/hidayah/home']);
+        }, 1000); // Spinner will be visible for at least 1 second
       },
-      error: (err) => console.error('Login failed', err),
+      error: (err) => {
+        setTimeout(() => {
+          this.spinner.hide(); // Hide loader after a delay
+        }, 1000);
+      }
     });
   }
+  
    /**
    * Custom Validator for Username or Email
    */

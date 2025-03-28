@@ -8,7 +8,7 @@ import { LayoutComponent } from "./Layout/layout/layout.component";
 
 
 const routes: Routes = [
-   {path:'',pathMatch:'full',redirectTo:'signin'},
+   {path:'***',pathMatch:'full',redirectTo:'signin'},
     {path:'signin',component:SigninComponent},
     {
         path:'hidayah',

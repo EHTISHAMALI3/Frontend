@@ -12,8 +12,9 @@ import { LayoutComponent } from "./Layout/layout/layout.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from "./Interceptors/auth.interceptor";
-import { AuthGuard } from "./Guards/auth.guard";
 import { AuthService } from "./Services/auth.service";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 
@@ -34,11 +35,13 @@ import { AuthService } from "./Services/auth.service";
       AppRoutingModule,
       PagesModule,
       HttpClientModule,
+      NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
       ToastrModule.forRoot({
-        timeOut: 1000,
+        timeOut: 3000,
       }),
-
+      
     ],
+    schemas:[CUSTOM_ELEMENTS_SCHEMA],
     exports:[RouterModule],
     providers: [
       AuthService,

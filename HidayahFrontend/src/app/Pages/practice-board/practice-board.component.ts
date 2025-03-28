@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ALPHA_BETS, COMPLETED_SLIDES } from '../SHARED';
@@ -8,7 +8,7 @@ import { CarouselComponent, SlidesOutputData } from 'ngx-owl-carousel-o';
   templateUrl: './practice-board.component.html',
   styleUrl: './practice-board.component.css'
 })
-export class PracticeBoardComponent implements OnInit{
+export class PracticeBoardComponent implements OnInit,AfterViewInit{
   @ViewChild('owlCarousel', { static: false }) owlCarousel!: CarouselComponent;
 
   customOptions:any;
@@ -49,6 +49,9 @@ export class PracticeBoardComponent implements OnInit{
   
             // Reset selected slide
             this.selectedSlide = ALPHA_BETS[0];
+    }
+    ngAfterViewInit(): void {
+      this.practiceAgain()
     }
     navigateToHolyQuran(){
       this.router.navigate(['hidayah/holyQuran'],{ queryParams: { ref: 'ksdjfihuwasdasd&%9348@#$%&^9sj@f93d' }})
