@@ -1,0 +1,109 @@
+<!----------tabs------------>
+<div class="tab-cards">
+    <div class="row gy-3">
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card " routerLink="/admin/add-individual-board-content">
+                <p>Add Individual Letter Content</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card active" routerLink="/admin/add-compound-board-content">
+                <p>Add Compound Letter Content</p>
+            </div>
+        </div>
+    </div>
+  </div>
+  <img src="../../../../../assets/images/image.png" alt="" class=" mt-2 h-25 w-50">
+  <img src="../../../../../assets/images/image (2).png" alt="" class=" mt-2 h-25 w-50">
+
+  <div class="container">
+    <form [formGroup]="COMPOUND_FORM" (ngSubmit)="SUBMIT()" class="mb-4">
+      <div class="row">
+        <div class="col" *ngFor="let field of ['Name', 'Arabic', 'Urdu', 'CreatedBy']">
+          <label>{{ field }}</label>
+          <input type="text" class="form-control" [formControlName]="field" [attr.maxlength]="field === 'CreatedBy' ? 100 : 20">
+          <small class="text-danger" *ngIf="F[field].invalid && F[field].touched">{{ field }} is required</small>
+        </div>
+  
+        <div class="col">
+          <label>SVG File</label>
+          <input type="file" class="form-control" (change)="ONSVGCHANGE($event)" accept=".svg">
+          <div [innerHTML]="SVG_CONTENT" class="border mt-2 p-2" *ngIf="SVG_CONTENT"></div>
+          <small class="form-text text-muted" *ngIf="IS_EDITING && F['SvgFile'].value">
+            {{ F['SvgFile'].value.name }}
+          </small>
+        </div>
+  
+        <div class="col">
+          <label>Audio File</label>
+          <input type="file" class="form-control" (change)="ONAUDIOCHANGE($event)" accept="audio/*">
+          <audio [src]="AUDIO_PREVIEW_URL" controls *ngIf="AUDIO_PREVIEW_URL" class="mt-2"></audio>
+          <small class="form-text text-muted" *ngIf="IS_EDITING && F['AudioFile'].value">
+            {{ F['AudioFile'].value.name }}
+          </small>
+        </div>
+      </div>
+  
+      <button class="btn btn-primary mt-3" [disabled]="COMPOUND_FORM.invalid">{{ IS_EDITING ? 'Update' : 'Create' }}</button>
+      <button class="btn btn-secondary mt-3" type="button" (click)="RESETFORM()" *ngIf="IS_EDITING">Cancel</button>
+    </form>
+  
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Arabic</th>
+          <th>Urdu</th>
+          <th>SVG</th>
+          <th>Audio</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let letter of LETTERS">
+          <td>{{ letter.id }}</td>
+          <td>{{ letter.name }}</td>
+          <td>{{ letter.arabic }}</td>
+          <td>{{ letter.urdu }}</td>
+          <div class="svg">
+            <img [src]="letter.SVG_PATH" [ngStyle]="{'width':'25px'}" alt="Arabic Letter" />
+          </div>
+          <td>
+            <audio [src]="letter.AUDIO_PATH" controls *ngIf="!letter.deleted"></audio>
+            <audio [src]="letter.AUDIO_PATH" controls muted style="pointer-events: none; opacity: 0.5;" *ngIf="letter.deleted"></audio>
+          </td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-info" (click)="EDIT(letter)">Edit</button>
+            <!-- Toggle Active/Inactive -->
+            <button class="btn btn-sm" [ngClass]="letter.deleted ? 'btn-success' : 'btn-warning'" (click)="TOGGLESTATUS(letter.id)">
+              <i class="fas" [ngClass]="letter.deleted ? 'fa-eye' : 'fa-eye-slash'"></i>
+            </button>
+          
+            <!-- Permanent Delete -->
+            <button class="btn btn-sm btn-danger ml-2" (click)="PERMANENTDELETE(letter.id)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <nav *ngIf="TOTAL_RECORDS > PAGE_SIZE" class="mt-3">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="CURRENT_PAGE === 1">
+          <button class="page-link" (click)="CHNAGEPAGE(CURRENT_PAGE - 1)">Previous</button>
+        </li>
+        <li class="page-item disabled">
+          <span class="page-link">Page {{ CURRENT_PAGE }}</span>
+        </li>
+        <li class="page-item" [class.disabled]="CURRENT_PAGE * PAGE_SIZE >= TOTAL_RECORDS">
+          <button class="page-link" (click)="CHNAGEPAGE(CURRENT_PAGE + 1)">Next</button>
+        </li>
+      </ul>
+    </nav>
+    
+    
+  </div>
+  
+  

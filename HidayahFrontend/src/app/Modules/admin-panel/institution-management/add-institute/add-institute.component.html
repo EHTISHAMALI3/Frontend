@@ -1,0 +1,187 @@
+<!----------tabs------------>
+<div class="tab-cards">
+  <div class="row gy-3">
+      <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="card active" routerLink="/admin/add-institute">
+              <p>Add a New Institute</p>
+          </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="card" routerLink="/admin/add-branch">
+              <p>Add a New Branch</p>
+          </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="card" routerLink="/admin/add-lab">
+              <p>Add a New Lab</p>
+          </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="card " routerLink="/admin/browser-list">
+              <p>Browser Lists</p>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="dashboard-form">
+  <form [formGroup]="institutionForm" (ngSubmit)="onSubmit()">
+    <div class="row align-items-center">
+      
+      <!-- Institution ID -->
+      <div class="col-xl-3 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <label class="form-label">Institution ID (Auto-generated):</label>
+          <input
+            type="text"
+            class="form-control custom-focus"
+            formControlName="institutionId"
+            readonly
+            placeholder=""
+            readonly
+          />
+        </div>
+      </div>
+
+      <!-- Institution Name -->
+      <div class="col-xl-3 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <label class="form-label">Institution Name:</label>
+          <input type="text" class="form-control custom-focus" formControlName="institutionName" />
+          <small class="text-danger" *ngIf="f['institutionName'].touched && f['institutionName'].invalid">
+            Institution Name is required
+          </small>
+        </div>
+      </div>
+
+      <!-- Institution Type -->
+      <div class="col-xl-3 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <label class="form-label">Institution Type:</label>
+          <select class="form-control custom-focus" formControlName="institutionTypeId">
+            <option value="">Select Type</option>
+            <option *ngFor="let type of institutionTypes" [value]="type.institutionTypeId">
+              {{ type.typeName }}
+            </option>
+          </select>
+          <small class="text-danger" *ngIf="f['institutionTypeId'].touched && f['institutionTypeId'].invalid">
+            Institution Type is required
+          </small>
+        </div>
+      </div>
+
+
+      <!-- Institution Email -->
+      <div class="col-xl-3 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <label class="form-label">Institution Email:</label>
+          <input type="email" class="form-control custom-focus" formControlName="institutionEmail" />
+          <small class="text-danger" *ngIf="f['institutionEmail'].touched && f['institutionEmail'].invalid">
+            Enter a valid email
+          </small>
+        </div>
+      </div>
+
+      <!-- Institution Phone -->
+      <div class="col-xl-3 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <label class="form-label">Institution Phone:</label>
+          <input type="text" class="form-control custom-focus" formControlName="institutionPhone" />
+          <small class="text-danger" *ngIf="f['institutionPhone'].touched && f['institutionPhone'].invalid">
+            Institution Phone is required
+          </small>
+        </div>
+      </div>
+
+      <!-- Website URL -->
+      <div class="col-xl-3 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <label class="form-label">Website URL:</label>
+          <input type="url" class="form-control custom-focus" formControlName="websiteUrl" />
+          <small class="text-danger" *ngIf="f['websiteUrl'].touched && f['websiteUrl'].value && f['websiteUrl'].invalid">
+            Please enter a valid website URL
+          </small>
+        </div>
+      </div>
+      
+
+      <!-- Date of Establishment -->
+      <div class="col-xl-3 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <label class="form-label">Date of Establishment:</label>
+          <input type="date" class="form-control custom-focus" formControlName="dateOfEstablishment" />
+          <small class="text-danger" *ngIf="f['dateOfEstablishment'].touched && f['dateOfEstablishment'].invalid">
+            Institute establishment date required
+          </small>
+        </div>
+      </div>
+      
+
+      <!-- Address Fields -->
+      <ng-container *ngFor="let field of addressFields">
+        <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            <input type="text" class="form-control custom-focus" [formControlName]="field.control" />
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Contact Fields -->
+      <ng-container *ngFor="let field of contactFields">
+        <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            <input [type]="field.type" class="form-control custom-focus" [formControlName]="field.control" />
+            <small *ngIf="f[field.control]?.touched && f[field.control]?.invalid" class="text-danger">
+              Please enter a valid {{ field.label.toLowerCase() }}
+            </small>
+          </div>
+        </div>
+      </ng-container>
+      <!-- City -->
+    <div class="col-xl-3 col-lg-6 col-md-12">
+      <div class="mb-3">
+        <label class="form-label">City:</label>
+        <select class="form-control custom-focus" formControlName="cityId">
+          <option value="">Select Type</option>
+          <option *ngFor="let city of citieList" [value]="city.cityId">
+            {{ city.cityName }}
+          </option>
+        </select>
+        <small class="text-danger" *ngIf="f['cityId'].touched && f['cityId'].invalid">
+          Institution Type is required
+        </small>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-12">
+      <div class="mb-3">
+        <label class="form-label">Country:</label>
+        <select class="form-control custom-focus" formControlName="countryId">
+          <option value="">Select Type</option>
+          <option *ngFor="let country of countriesList" [value]="country.countryId">
+            {{ country.countryName }}
+          </option>
+        </select>
+        <small class="text-danger" *ngIf="f['countryId'].touched && f['countryId'].invalid">
+          Institution Type is required
+        </small>
+      </div>
+    </div>
+      <!-- Institution Status -->
+      <div class="col-xl-3 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <label class="form-label">Institution Status:</label>
+          <select class="form-control custom-focus" formControlName="institutionStatus">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end gap-3">
+      <button type="button" class="btn btn-outline-primary" (click)="onDiscard()">Discard</button>
+      <button type="submit" class="btn btn-primary" [disabled]="institutionForm.invalid">Save</button>
+    </div>
+  </form>
+</div>

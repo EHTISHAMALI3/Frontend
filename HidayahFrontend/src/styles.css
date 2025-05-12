@@ -1,0 +1,61 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/css/style.css";
+
+
+
+
+
+.form-control {
+    @apply w-full p-2 border border-gray-300 rounded-md;
+  }
+  
+  .btn {
+    @apply px-4 py-2 rounded-md text-white;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700;
+  }
+  /* Success */
+.custom-toast-success.swal2-popup.swal2-toast {
+  background-color: #28a745 !important;
+  color: white !important;
+}
+.custom-toast-success .swal2-icon,
+.custom-toast-success .swal2-title {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Error */
+.custom-toast-error.swal2-popup.swal2-toast {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+.custom-toast-error .swal2-icon,
+.custom-toast-error .swal2-title {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Warning */
+.custom-toast-warning.swal2-popup.swal2-toast {
+  background-color: #ffc107 !important;
+  color: black !important;
+}
+.custom-toast-warning .swal2-icon,
+.custom-toast-warning .swal2-title {
+  color: black !important;
+  border-color: black !important;
+}
+
+/* Info */
+.custom-toast-info.swal2-popup.swal2-toast {
+  background-color: #17a2b8 !important;
+  color: white !important;
+}
+.custom-toast-info .swal2-icon,
+.custom-toast-info .swal2-title {
+  color: white !important;
+  border-color: white !important;
+}

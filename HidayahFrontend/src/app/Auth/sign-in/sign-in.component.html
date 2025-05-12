@@ -1,0 +1,114 @@
+<body>
+    <main class="login-wrapper">
+
+        <div class="container">
+            <section class="main-section">
+              <div class="row">
+                <div class="col-xl-8 col-lg-12">
+                  <div class="left-panel">
+                    <div class="logo">
+                      <figure>
+                        <img src="./assets/images/main-logo.png" alt="" class="img-fluid">
+                      </figure>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-12">
+                  <div class="right-panel">
+                    <div class="login-card">
+                      <div class="form-div">
+                        <h1 class="mb-3">Begin Your Journey</h1>
+                        <h5 class="mb-5">of Knowledge, Peace, and Guidance.</h5>
+                        <span class="mb-4">Please enter your credentials to login</span>
+          
+                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                          <div class="input-group mb-4">
+                            <label for="email" class="d-block w-100">Email or Username</label>
+                            <div class="input-with-icon w-100 position-relative">
+                              <input type="email" class="form-control custom-focus w-100"
+                                formControlName="usernameOrEmail"
+                                placeholder="Type your username">
+                                <span class="icon">
+                                    <svg width="15" height="16" viewBox="0 0 15 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M13.5352 12.783C13.3105 12.4022 13.0566 12.0457 12.7734 11.7137C12.4902 11.3817 12.1851 11.0814 11.8579 10.8128C11.5308 10.5443 11.1816 10.3123 10.8105 10.117C10.4395 9.91193 10.0537 9.74103 9.65332 9.60431C10.2783 9.23322 10.7788 8.72784 11.1548 8.0882C11.5308 7.44855 11.7188 6.74786 11.7188 5.98615C11.7188 5.40021 11.6064 4.85333 11.3818 4.34552C11.167 3.82794 10.8691 3.37872 10.4883 2.99786C10.1074 2.617 9.6582 2.31915 9.14062 2.10431C8.63281 1.8797 8.08594 1.7674 7.5 1.7674C6.91406 1.7674 6.36719 1.8797 5.85938 2.10431C5.3418 2.31915 4.89258 2.617 4.51172 2.99786C4.13086 3.37872 3.83301 3.82794 3.61816 4.34552C3.39355 4.85333 3.28125 5.40021 3.28125 5.98615C3.28125 6.74786 3.46924 7.44855 3.84521 8.0882C4.22119 8.72784 4.71191 9.23322 5.31738 9.60431H5.34668C4.94629 9.74103 4.56055 9.90704 4.18945 10.1024C3.81836 10.3074 3.46924 10.5443 3.14209 10.8128C2.81494 11.0814 2.50977 11.3817 2.22656 11.7137C1.94336 12.0359 1.68945 12.3924 1.46484 12.783C1.44531 12.8221 1.43066 12.8611 1.4209 12.9002C1.41113 12.9393 1.40625 12.9832 1.40625 13.032C1.40625 13.159 1.4502 13.2689 1.53809 13.3616C1.62598 13.4544 1.73828 13.5008 1.875 13.5008C1.96289 13.5008 2.04346 13.4788 2.1167 13.4349C2.18994 13.3909 2.24609 13.3299 2.28516 13.2518C2.55859 12.7733 2.88086 12.3484 3.25195 11.9774C3.63281 11.5965 4.04785 11.2742 4.49707 11.0106C4.94629 10.7469 5.4248 10.5467 5.93262 10.41C6.44043 10.2733 6.96289 10.2049 7.5 10.2049C8.03711 10.2049 8.55957 10.2733 9.06738 10.41C9.5752 10.5467 10.0537 10.7469 10.5029 11.0106C10.9521 11.2742 11.3672 11.5965 11.748 11.9774C12.1191 12.3484 12.4414 12.7733 12.7148 13.2518C12.7539 13.3299 12.8101 13.3909 12.8833 13.4349C12.9565 13.4788 13.0371 13.5008 13.125 13.5008C13.2617 13.5008 13.374 13.4544 13.4619 13.3616C13.5498 13.2689 13.5938 13.159 13.5938 13.032C13.5938 12.9832 13.5889 12.9393 13.5791 12.9002C13.5693 12.8611 13.5547 12.8221 13.5352 12.783ZM4.21875 5.98615C4.21875 5.53693 4.30664 5.11212 4.48242 4.71173C4.64844 4.31134 4.88037 3.96222 5.17822 3.66437C5.47607 3.36652 5.8252 3.13458 6.22559 2.96857C6.62598 2.79279 7.05078 2.7049 7.5 2.7049C7.94922 2.7049 8.37402 2.79279 8.77441 2.96857C9.1748 3.13458 9.52393 3.36652 9.82178 3.66437C10.1196 3.96222 10.3516 4.31134 10.5176 4.71173C10.6934 5.11212 10.7812 5.53693 10.7812 5.98615C10.7812 6.43536 10.6934 6.86017 10.5176 7.26056C10.3516 7.66095 10.1196 8.01007 9.82178 8.30792C9.52393 8.60577 9.1748 8.83771 8.77441 9.00372C8.37402 9.1795 7.94922 9.2674 7.5 9.2674C7.05078 9.2674 6.62598 9.1795 6.22559 9.00372C5.8252 8.83771 5.47607 8.60577 5.17822 8.30792C4.88037 8.01007 4.64844 7.66095 4.48242 7.26056C4.30664 6.86017 4.21875 6.43536 4.21875 5.98615Z"
+                                            fill="#464545" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div *ngIf="loginForm.get('usernameOrEmail')?.touched && loginForm.get('usernameOrEmail')?.invalid" class="error">
+                                <span *ngIf="loginForm.get('usernameOrEmail')?.errors?.['required']">
+                                  This field is required.
+                                </span>
+                                <!-- <span *ngIf="loginForm.get('email')?.errors?.['invalidUserInput']">
+                                  Enter a valid **email** or a **username** with at least 1 uppercase & 1 special character.
+                                </span> -->
+                              </div>
+                          </div>
+          
+                          <div class="input-group mb-4">
+                            <label for="password" class="d-block w-100">Password</label>
+                            <div class="input-with-icon w-100 position-relative">
+                              <input type="password" class="form-control custom-focus w-100"
+                                formControlName="password"
+                                placeholder="Password">
+                                <span class="icon">
+                                    <svg width="15" height="16" viewBox="0 0 15 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12.1875 5.6214H10.3125V4.21515C10.3125 3.4339 10.0391 2.76984 9.49219 2.22296C8.94531 1.67609 8.28125 1.40265 7.5 1.40265C6.71875 1.40265 6.05469 1.67609 5.50781 2.22296C4.96094 2.76984 4.6875 3.4339 4.6875 4.21515V5.6214H2.8125C2.54883 5.6214 2.32666 5.71173 2.146 5.8924C1.96533 6.07306 1.875 6.29523 1.875 6.5589V13.1214C1.875 13.3851 1.96533 13.6072 2.146 13.7879C2.32666 13.9686 2.54883 14.0589 2.8125 14.0589H12.1875C12.4512 14.0589 12.6733 13.9686 12.854 13.7879C13.0347 13.6072 13.125 13.3851 13.125 13.1214V6.5589C13.125 6.29523 13.0347 6.07306 12.854 5.8924C12.6733 5.71173 12.4512 5.6214 12.1875 5.6214ZM5.625 4.21515C5.625 3.69757 5.80811 3.25568 6.17432 2.88947C6.54053 2.52325 6.98242 2.34015 7.5 2.34015C8.01758 2.34015 8.45947 2.52325 8.82568 2.88947C9.19189 3.25568 9.375 3.69757 9.375 4.21515V5.6214H5.625V4.21515ZM12.1875 13.1214H2.8125V6.5589H12.1875V13.1214ZM8.20312 9.84015C8.20312 10.0355 8.13477 10.2015 7.99805 10.3382C7.86133 10.4749 7.69531 10.5433 7.5 10.5433C7.30469 10.5433 7.13867 10.4749 7.00195 10.3382C6.86523 10.2015 6.79688 10.0355 6.79688 9.84015C6.79688 9.64484 6.86523 9.47882 7.00195 9.3421C7.13867 9.20538 7.30469 9.13702 7.5 9.13702C7.69531 9.13702 7.86133 9.20538 7.99805 9.3421C8.13477 9.47882 8.20312 9.64484 8.20312 9.84015Z"
+                                            fill="#464545" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="error">
+                                <span *ngIf="loginForm.get('password')?.errors?.['required']">
+                                  Password is required.
+                                </span>
+                                <span *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                                  Password must be at least 6 characters long.
+                                </span>
+                                <span *ngIf="loginForm.get('password')?.errors?.['pattern']">
+                                  Password must include at least one uppercase letter and one special character.
+                                </span>
+                              </div>
+                                                           
+                          </div>
+          
+                          <div class="action-item w-100 d-flex align-items-center justify-content-between mb-5 flex-wrap">
+                            <div class="checkbox">
+                              <div class="form-check">
+                                <input class="form-check-input custom-theme-checkbox"
+                                  type="checkbox"
+                                  formControlName="rememberMe"
+                                  id="rememberMe">
+                                <label class="form-check-label fw-600" for="rememberMe">
+                                  Remember Me
+                                </label>
+                              </div>
+                            </div>
+                            <a >Forgot Password?</a>
+                          </div>
+                          <button type="submit" class="d-block mb-5 theme-btn w-100"  [disabled]="loginForm.invalid">
+                            Sign In
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <footer>
+              <div class="login-footer">
+                <p class="text-center">
+                  Unlock the treasures of Quran, Duas, Kalimas, and timeless stories of faith.
+                  Explore everything your heart seeks – all in one place!
+                </p>
+              </div>
+            </footer>
+          </div>
+          
+    </main>
+</body>

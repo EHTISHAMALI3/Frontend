@@ -1,0 +1,155 @@
+<main class="main-wrapper">
+    <section class="main-content">
+        <div *ngIf="IS_ASSESMENT_STARTED && IS_ASSESMENTCOMPLETED" class="stats-box mt-3 text-center">
+            <p>Total Attempts: {{ ASSESMENT_STATS.TOTAL_ATTEMPTS }}</p>
+            <p>Correct: {{ ASSESMENT_STATS.CORRECT_ATTEMPTS }}</p>
+            <p>Incorrect: {{ ASSESMENT_STATS.IN_CORRECT_ATTEMPTS }}</p>
+          </div>
+          
+          
+        <div class="container">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb align-items-center mb-4">
+                    <li class="breadcrumb-item"><a (click)="NAVIGATETOHIDAYAHHOME()"  [ngStyle]="{ 'cursor': 'pointer' }">Home</a></li>
+                    <li class="breadcrumb-item"><a (click)="HAVIGATETOHOLYQURAN()"  [ngStyle]="{ 'cursor': 'pointer' }">Holy Quran</a></li>
+                    <li class="breadcrumb-item">Noorani Primer</li>
+                    <li class="breadcrumb-item active" aria-current="page">Practice Board 1 - Murakkabat (Combine Letters)</li>
+                </ol>
+            </nav>
+
+            <div class="practice-section">
+                <div class="card bg-white mb-4">
+                    <div class="row mb-4">
+                        <div class="col-xl-6 col-lg-12">
+                            <div class="practice-content">
+                                <h4 class="mb-3">Practice Board 2 - Murakkabat (Combine Letters)</h4>
+                                <h5>Understanding Murakkabat</h5>
+                                <p class="mb-4"> Murakkabat consists of combined Arabic letters.
+                                    These letters are the foundation of Quranic reading. Before forming words, you
+                                    must recognize and pronounce each letter correctly.</p>
+                                <h5>How to Practice</h5>
+                                <p class="mb-2"> <span class="fw-600">Look at Each Letter Carefully.</span> Observe
+                                    its shape and how it is written. Transliteration is given along each of these
+                                    letters</p>
+                                <p class="mb-2"> <span class="fw-600">Listen to Correct Pronunciation</span> Click
+                                    on the speaker icon to hear the exact pronunciation.</p>
+                                <p class="mb-4"> <span class="fw-600">Repeat the Letter Aloud.</span> . Say the
+                                    letter multiple times, focusing on how your tongue and throat move.</p>
+
+                                <h6 class="mb-4">Start by familiarizing yourself with each letter’s shape, sound,
+                                    and articulation, as this will help you read fluently with confidence.</h6>
+                                <div class="tip-box mb-2">
+                                    <p class="fw-600 mb-0">Tip:</p>
+                                    <p class="mb-0 fst-italic">Some letters are pronounced from the throat (ع, ح, غ,
+                                        خ, ه), so please ensure to practice pronouncing them carefully.</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-12">
+                            <div class="voice-practice-board mb-3"   [ngStyle]="{ height: IS_ASSESMENT_STARTED ? '387px' : '470px' }"
+                            [class.show]="IS_ASSESMENT_STARTED"
+                            [class.hide]="!IS_ASSESMENT_STARTED">
+                                <div class="haroof d-flex flex-column align-items-center justify-content-center" *ngIf="SELECTED_SLIDE">
+                                    <div class="d-flex gap-1 align-items-center flex-wrap justify-content-around">
+                                        <h1 class="large-text">{{ GETNAMEWITHOUTBRACKETS(SELECTED_SLIDE.name) }}</h1>
+                                       <h3 *ngIf="GETBRACKETCONTENT(SELECTED_SLIDE.name)" class="small-text">
+                                          ({{ GETBRACKETCONTENT(SELECTED_SLIDE.name) }})
+                                       </h3> 
+                                    </div>   
+                                    <h1>{{ SELECTED_SLIDE.urdu }}</h1>
+                                </div>
+                                <div class="haroof-icon flex-grow-1">
+                                    <!-- <img [src]="SELECTED_SLIDE?.SVG_PATH" alt="" > -->
+                                    <img [src]="SELECTED_SLIDE?.SVG_PATH"
+                                    [ngStyle]="{
+                                    'filter': 'invert(35%) sepia(27%) saturate(903%) hue-rotate(345deg) brightness(92%) contrast(91%)'
+                                    }"
+                                    alt="" />
+                                </div>
+                                <div class="sound-icons d-flex gap-3">
+                                    <span class="speaker-icon" [ngClass]="{ 'speaking-animation': IS_SPEAKING }"
+                                    (click)="ONSPEAKERCLICK(SELECTED_SLIDE.name)">
+                                        <svg width="25" height="23" viewBox="0 0 25 23" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M22 11.3954C22 9.49329 21.4958 7.75735 20.4875 6.18756C19.4792 4.61777 18.1271 3.44329 16.4312 2.66412C16.0875 2.50371 15.8354 2.25735 15.675 1.92506C15.5146 1.59277 15.4917 1.25475 15.6063 0.910999C15.7438 0.544332 15.9901 0.28079 16.3453 0.120374C16.7005 -0.0400431 17.0615 -0.0400431 17.4281 0.120374C19.651 1.10579 21.4271 2.61256 22.7563 4.64069C24.0854 6.66881 24.75 8.92037 24.75 11.3954C24.75 13.8704 24.0854 16.1219 22.7563 18.1501C21.4271 20.1782 19.651 21.685 17.4281 22.6704C17.0615 22.8308 16.7005 22.8308 16.3453 22.6704C15.9901 22.51 15.7438 22.2464 15.6063 21.8797C15.4917 21.536 15.5146 21.198 15.675 20.8657C15.8354 20.5334 16.0875 20.287 16.4312 20.1266C18.1271 19.3475 19.4792 18.173 20.4875 16.6032C21.4958 15.0334 22 13.2975 22 11.3954ZM5.5 15.5547H1.375C0.985417 15.5547 0.658854 15.423 0.395312 15.1594C0.131771 14.8959 0 14.5693 0 14.1797V8.67975C0 8.29016 0.131771 7.9636 0.395312 7.70006C0.658854 7.43652 0.985417 7.30475 1.375 7.30475H5.5L10.0375 2.76725C10.4729 2.33183 10.9714 2.23444 11.5328 2.47506C12.0943 2.71569 12.375 3.14537 12.375 3.76412V19.0954C12.375 19.7141 12.0943 20.1438 11.5328 20.3844C10.9714 20.6251 10.4729 20.5277 10.0375 20.0922L5.5 15.5547ZM18.5625 11.4297C18.5625 12.3922 18.3448 13.3032 17.9094 14.1626C17.474 15.0219 16.901 15.7266 16.1906 16.2766C15.9615 16.4141 15.7266 16.4199 15.4859 16.2938C15.2453 16.1678 15.125 15.9672 15.125 15.6922V7.0985C15.125 6.8235 15.2453 6.62298 15.4859 6.49694C15.7266 6.37089 15.9615 6.37662 16.1906 6.51412C16.901 7.08704 17.474 7.80892 17.9094 8.67975C18.3448 9.55058 18.5625 10.4672 18.5625 11.4297Z"
+                                                fill="white" />
+                                        </svg>
+                                    </span>
+                                    <span
+                                    class="microphone-icon"
+                                    class="microphone-icon"
+                                    [class.disabled]="!ASSESMENT_STARTED"
+                                    [ngClass]="{ 'recording-animation': IS_RECORDING && ASSESMENT_STARTED }"
+                                    (click)="TOGGLERECORDING()"
+                                    >
+                                  
+                                        <svg width="18" height="25" viewBox="0 0 18 25" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M8.99965 14.667C8.06808 14.667 7.27962 14.3443 6.63427 13.699C5.98893 13.0536 5.66626 12.2652 5.66626 11.3336V3.33346C5.66626 2.40188 5.98893 1.61342 6.63427 0.968079C7.27962 0.322733 8.06808 6.10352e-05 8.99965 6.10352e-05C9.93122 6.10352e-05 10.7197 0.322733 11.365 0.968079C12.0104 1.61342 12.333 2.40188 12.333 3.33346V11.3336C12.333 12.2652 12.0104 13.0536 11.365 13.699C10.7197 14.3443 9.93122 14.667 8.99965 14.667ZM7.99963 23.3338V19.9388C6.01493 19.7097 4.31401 18.8943 2.89687 17.4927C1.47996 16.0909 0.65005 14.3823 0.407156 12.367C0.371378 12.0832 0.445713 11.8401 0.630161 11.6376C0.814831 11.4349 1.04906 11.3336 1.33284 11.3336C1.61662 11.3336 1.85418 11.4315 2.04552 11.6273C2.23708 11.8228 2.36453 12.0625 2.42786 12.3463C2.67053 13.979 3.4171 15.3295 4.66757 16.3977C5.91804 17.4662 7.36207 18.0004 8.99965 18.0004C10.6595 18.0004 12.109 17.4606 13.3484 16.381C14.5878 15.3017 15.3288 13.9568 15.5714 12.3463C15.6348 12.0625 15.7622 11.8228 15.9538 11.6273C16.1451 11.4315 16.3827 11.3336 16.6665 11.3336C16.9502 11.3336 17.1845 11.4349 17.3691 11.6376C17.5536 11.8401 17.6279 12.0832 17.5921 12.367C17.3493 14.3379 16.5249 16.0333 15.1191 17.4531C13.7131 18.8726 12.0066 19.7012 9.99967 19.9388V23.3338C9.99967 23.6176 9.90389 23.8552 9.71233 24.0465C9.521 24.2381 9.28343 24.3339 8.99965 24.3339C8.71587 24.3339 8.47831 24.2381 8.28697 24.0465C8.09541 23.8552 7.99963 23.6176 7.99963 23.3338Z"
+                                                fill="white" />
+                                        </svg>
+
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="tip-box flex-column gap-0" *ngIf="IS_ASSESMENT_STARTED">
+                                <div class="d-flex gap-1" *ngFor="let TIP of TIP_LIST">
+                                  <p class="fw-600 mb-0">Tip:</p>
+                                  <p [ngClass]="{'text-green': TIP.IS_CORRECT, 'text-red': !TIP.IS_CORRECT}" class="fw-600 mb-0">
+                                    {{ TIP.TEXT }}
+                                  </p>
+                                </div>
+                              </div>
+                              
+                        </div>
+                    </div>
+
+                          
+                    <!-- <owl-carousel-o #owlCarousel [options]="customOptions" (translated)="getPassedData($event)"> -->
+                        <owl-carousel-o #OWL_CAROUSEL [options]="CUSTOM_OPTIONS" >
+                            <ng-container *ngFor="let SLIDE of SLIDER_DATA; let i = index">
+                                <ng-template carouselSlide>
+                                    <div 
+                                        class="haroof-tahaji-box"
+                                        [ngClass]="GETSLIDECLASS(i)"
+                                        [class.clickable]="(COMPLETED_SLIDES[i - 1] || i === 0) && !ASSESMENT_STARTED"
+                                        (click)="!ASSESMENT_STARTED && ONSLIDECLICK(i, SLIDE)"
+                                        >
+                                    <div class="svg">
+                                      <!-- <img [src]="SLIDE.SVG_PATH" [ngStyle]="{'width':'25px'}" alt="Arabic Letter" /> -->
+                                      <img [src]="SLIDE.SVG_PATH" class="custom-svg" alt="Arabic Letter" />
+
+
+                                    </div>
+                                  </div>
+                                </ng-template>
+                              </ng-container>
+                      </owl-carousel-o>
+                </div>
+           
+                <div class="assesment-btns d-flex justify-content-center gap-4">
+                    <button class="btn btn-primary" 
+                    [disabled]="ATTEMPT_COUNT < 0"
+                    (click)="STARTASSESMENT()"
+                    >
+                    Start Assessment
+                    </button>
+                   <!-- Practice Again button: Enabled when all letters are green -->
+                   <button type="button" class="btn btn-outline-primary" 
+                   [disabled]="!ALL_LETTERS_COMPLETED"
+                   (click)="PRACTICEAGAIN()">
+                   Practice Again
+                   </button>
+
+                    <!-- <button type="button" class="btn btn-outline-primary" [ngClass]="{ 'disable': selectedSlide.name !== 'Bari Ya' }" (click)="practiceAgain()">Practice Again</button> -->
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</main>

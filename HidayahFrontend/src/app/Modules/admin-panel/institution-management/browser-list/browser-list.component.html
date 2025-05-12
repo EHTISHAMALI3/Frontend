@@ -1,0 +1,135 @@
+<!----------tabs------------>
+<div class="tab-cards">
+    <div class="row gy-3">
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card" routerLink="/admin/add-institute">
+                <p>Add a New Institute</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card" routerLink="/admin/add-branch">
+                <p>Add a New Branch</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card" routerLink="/admin/add-lab">
+                <p>Add a New Lab</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card active" routerLink="/admin/browser-list">
+                <p>Browser Lists</p>
+            </div>
+        </div>
+    </div>
+  </div>
+<div class="dashboard-form">
+    <h5>Institutions</h5>
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inst of institutions">
+          <td>{{ inst.id }}</td>
+          <td *ngIf="!inst.isEditable">{{ inst.name }}</td>
+          <td *ngIf="inst.isEditable">
+            <input [(ngModel)]="inst.name" class="form-control" />
+          </td>
+          <td *ngIf="!inst.isEditable">
+            <i [class]="inst.status === 'Active' ? 'fa fa-eye' : 'fa fa-eye-slash'" class="cursor-pointer" (click)="toggleStatus(inst)"></i>
+          </td>
+          <td *ngIf="inst.isEditable">
+            <button class="btn btn-sm btn-primary" (click)="saveChanges(inst)">Save</button>
+          </td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-info" (click)="edit(inst, 'Institution')">
+              <i class="fa fa-cogs"></i> <!-- Gear Icon -->
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="delete(inst, institutions)">
+              <i class="fa fa-trash"></i> <!-- Trash Icon -->
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <h5>Branches</h5>
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Institution</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let branch of branches">
+          <td>{{ branch.id }}</td>
+          <td *ngIf="!branch.isEditable">{{ branch.name }}</td>
+          <td *ngIf="branch.isEditable">
+            <input [(ngModel)]="branch.name" class="form-control" />
+          </td>
+          <td *ngIf="!branch.isEditable">
+            <i [class]="branch.status === 'Active' ? 'fa fa-eye' : 'fa fa-eye-slash'" class="cursor-pointer" (click)="toggleStatus(branch)"></i>
+          </td>
+          <td *ngIf="branch.isEditable">
+            <button class="btn btn-sm btn-primary" (click)="saveChanges(branch)">Save</button>
+          </td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-info" (click)="edit(branch, 'Branch')">
+              <i class="fa fa-cogs"></i> <!-- Gear Icon -->
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="delete(branch, branches)">
+              <i class="fa fa-trash"></i> <!-- Trash Icon -->
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <h5>Labs</h5>
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Branch</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lab of labs">
+          <td>{{ lab.id }}</td>
+          <td *ngIf="!lab.isEditable">{{ lab.name }}</td>
+          <td *ngIf="lab.isEditable">
+            <input [(ngModel)]="lab.name" class="form-control" />
+          </td>
+          <td *ngIf="!lab.isEditable">
+            <i [class]="lab.status === 'Active' ? 'fa fa-eye' : 'fa fa-eye-slash'" class="cursor-pointer" (click)="toggleStatus(lab)"></i>
+          </td>
+          <td *ngIf="lab.isEditable">
+            <button class="btn btn-sm btn-primary" (click)="saveChanges(lab)">Save</button>
+          </td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-info" (click)="edit(lab, 'Lab')">
+              <i class="fa fa-cogs"></i> <!-- Gear Icon -->
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="delete(lab, labs)">
+              <i class="fa fa-trash"></i> <!-- Trash Icon -->
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+  </div>
+  

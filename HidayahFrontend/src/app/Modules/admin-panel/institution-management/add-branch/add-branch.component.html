@@ -1,0 +1,191 @@
+<!----------tabs------------>
+<div class="tab-cards">
+    <div class="row gy-3">
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card " routerLink="/admin/add-institute">
+                <p>Add a New Institute</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card active" routerLink="/admin/add-branch">
+                <p>Add a New Branch</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card" routerLink="/admin/add-lab">
+                <p>Add a New Lab</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card " routerLink="/admin/browser-list">
+                <p>Browser Lists</p>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="dashboard-form">
+    <form [formGroup]="branchForm" (ngSubmit)="onSubmit()">
+        <div class="row align-items-center">
+            <!-- Branch ID (Read-Only) -->
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Branch ID (Auto-generated):</label>
+                    <input type="text" class="form-control custom-focus" placeholder="" formControlName="branchId" readonly />
+                </div>
+            </div>
+
+            <!-- Institution -->
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Select Institution:</label>
+                    <select class="form-control custom-focus" formControlName="institutionId">
+                        <option value="" disabled selected>Select Institution</option>
+                        <option *ngFor="let inst of institutionsList" [value]="inst.institutionId">{{ inst.institutionName }}</option>
+                    </select>
+                    <small *ngIf="f['institutionId'].touched && f['institutionId'].invalid" class="text-danger">
+                        Institution is required
+                    </small>
+                </div>
+            </div>
+
+            <!-- Branch Name -->
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Branch Name:</label>
+                    <input type="text" class="form-control custom-focus" formControlName="branchName" />
+                    <small *ngIf="f['branchName'].touched && f['branchName'].invalid" class="text-danger">
+                        Branch Name is required
+                    </small>
+                </div>
+            </div>
+
+            <!-- Branch Code -->
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Branch Code:</label>
+                    <input type="text" class="form-control custom-focus" formControlName="branchCode" />
+                </div>
+            </div>
+
+            <!-- Branch Manager -->
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Branch Manager:</label>
+                    <select class="form-control custom-focus" formControlName="branchManagerId">
+                        <option value="" disabled selected>Select Manager</option>
+                        <option *ngFor="let mgr of managers" [value]="mgr.id">{{ mgr.name }}</option>
+                    </select>
+                    <small *ngIf="f['branchManagerId'].touched && f['branchManagerId'].invalid" class="text-danger">
+                        Branch Manager is required
+                    </small>
+                </div>
+            </div>
+
+            <!-- Branch Email -->
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Branch Email:</label>
+                    <input type="email" class="form-control custom-focus" formControlName="branchEmail" />
+                    <small *ngIf="f['branchEmail'].touched && f['branchEmail'].hasError('required')" class="text-danger">
+                        Email is required
+                    </small>
+                    <small *ngIf="f['branchEmail'].touched && f['branchEmail'].hasError('pattern')" class="text-danger">
+                        Enter a valid email
+                    </small>
+                </div>
+            </div>
+
+            <!-- Branch Phone -->
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Branch Phone:</label>
+                    <input type="text" class="form-control custom-focus" formControlName="branchPhone" />
+                    <small *ngIf="f['branchPhone'].touched && f['branchPhone'].hasError('required')" class="text-danger">
+                        Phone number is required
+                    </small>
+                    <small *ngIf="f['branchPhone'].touched && f['branchPhone'].hasError('pattern')" class="text-danger">
+                        Enter a valid phone number
+                    </small>
+                </div>
+            </div>
+
+            <!-- Address Fields -->
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Address:</label>
+                    <input type="text" class="form-control custom-focus" formControlName="branchAddress" />
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Street:</label>
+                    <input type="text" class="form-control custom-focus" formControlName="street" />
+                </div>
+            </div>
+
+      <!-- City -->
+      <div class="col-xl-3 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <label class="form-label">City:</label>
+          <select class="form-control custom-focus" formControlName="cityId">
+            <option value="">Select Type</option>
+            <option *ngFor="let city of citieList" [value]="city.cityId">
+              {{ city.cityName }}
+            </option>
+          </select>
+          <small class="text-danger" *ngIf="f['cityId'].touched && f['cityId'].invalid">
+            Institution Type is required
+          </small>
+        </div>
+      </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">State/Province:</label>
+                    <input type="text" class="form-control custom-focus" formControlName="state" />
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Postal Code:</label>
+                    <input type="text" class="form-control custom-focus" formControlName="postalCode" />
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-12">
+              <div class="mb-3">
+                <label class="form-label">Country:</label>
+                <select class="form-control custom-focus" formControlName="countryId">
+                  <option value="">Select Type</option>
+                  <option *ngFor="let country of countriesList" [value]="country.countryId">
+                    {{ country.countryName }}
+                  </option>
+                </select>
+                <small class="text-danger" *ngIf="f['countryId'].touched && f['countryId'].invalid">
+                  Institution Type is required
+                </small>
+              </div>
+            </div>
+
+            <!-- Branch Status -->
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Branch Status:</label>
+                    <select class="form-control custom-focus" formControlName="status">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-4 d-flex justify-content-end gap-3">
+            <button type="button" class="btn btn-outline-primary" (click)="onDiscard()">Discard</button>
+            <button type="submit" class="btn btn-primary" [disabled]="branchForm.invalid">Save</button>
+        </div>
+    </form>
+</div>
+
+  

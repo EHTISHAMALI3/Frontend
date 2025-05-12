@@ -1,0 +1,5 @@
+select.form-control:focus,
+select.custom-focus:focus {
+  border-radius: 0 !important;
+  box-shadow: none !important; /* optional: removes glow */
+}

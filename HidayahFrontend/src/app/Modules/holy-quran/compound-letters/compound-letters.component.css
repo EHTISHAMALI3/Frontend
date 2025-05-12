@@ -1,0 +1,139 @@
+/* .owl-nav button {
+    background: none !important;
+    border: none !important;
+  }
+  .carousel-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+   */
+   :root {
+    --theme-brown: #4E342E;
+    --warm-brown: #8B5E3C;
+    --metallic-gold: #D4AF37;
+    --theme-border-color: #E9E2D8;
+    --board-grey: #F6FAF8;
+    --text-read: #008031;
+    --text-unread: #D6002A;
+}
+.text-read {
+    box-shadow: inset 0 -4px var(--text-read);
+}
+.text-unread {
+    box-shadow: inset 0 -4px var(--text-unread);
+}
+   .haroof-tahaji-box{
+    width: 9rem; /* Adjust size */
+    min-height: 9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--board-grey);
+    border: 1.5px solid var(--theme-border-color);
+   }
+   .green-class {
+    border-bottom: 4px solid green;
+    pointer-events: auto;
+  }
+  
+  .red-class {
+    border-bottom: 4px solid red;
+    pointer-events: auto;
+  }
+  
+  .disabled-class {
+    /* background-color: gray; */
+    pointer-events: none; /* Prevent clicks */
+    /* opacity: 0.5; */
+  }
+  
+  .clickable {
+    cursor: pointer;
+  }
+  .speaker-icon.speaking-animation svg {
+    animation: pulseSpeaker 1s infinite;
+    transform-origin: center;
+  }
+  
+  @keyframes pulseSpeaker {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .microphone-icon {
+    /* display: inline-block; */
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .microphone-icon.recording-animation {
+    animation: pulseMic 1s infinite;
+  }
+  
+  @keyframes pulseMic {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.6; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto; /* Adjust based on the desired responsiveness */
+    min-height: 50vh; /* Ensures the container has a minimum height */
+}
+
+.haroof-icon {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center;    /* Centers vertically */
+  /* width: 100%;             */
+  min-height: 50vh;       /* Ensures enough vertical space */
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.microphone-icon.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* In your component CSS */
+.single-line-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.haroof-tahaji-box:not(.clickable) {
+  pointer-events: none;
+  /* opacity: 0.6; */
+  cursor: not-allowed;
+}
+.large-text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.small-text {
+  font-size: 14px;
+  color: gray;
+  margin-left: 4px;
+}
+.text-green {
+  color: #28a745;
+}
+
+.text-red {
+  color: #dc3545;
+}
+
+.animate-transition {
+  transition: color 0.5s ease;
+}
+
+.custom-svg {
+  width: 80px;
+  height: 80px;
+  filter: invert(35%) sepia(27%) saturate(903%) hue-rotate(345deg) brightness(92%) contrast(91%);
+}

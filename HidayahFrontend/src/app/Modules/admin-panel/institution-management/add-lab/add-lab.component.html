@@ -1,0 +1,110 @@
+<!----------tabs------------>
+<div class="tab-cards">
+    <div class="row gy-3">
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card" routerLink="/admin/add-institute">
+                <p>Add a New Institute</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card" routerLink="/admin/add-branch">
+                <p>Add a New Branch</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card active" routerLink="/admin/add-lab">
+                <p>Add a New Lab</p>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card " routerLink="/admin/browser-list">
+                <p>Browser Lists</p>
+            </div>
+        </div>
+    </div>
+  </div>
+<div class="dashboard-form">
+<form [formGroup]="labForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+  
+      <div class="col-md-6 mb-3">
+        <label>Lab ID (Auto-generated)</label>
+        <input class="form-control custom-focus" formControlName="labId" placeholder="" readonly />
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label>Lab Name *</label>
+        <input class="form-control custom-focus" formControlName="labName" />
+        <small *ngIf="f['labName'].touched && f['labName'].invalid" class="text-danger">Required</small>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label>Branch Assignment *</label>
+        <select class="form-control custom-focus" formControlName="branchId">
+          <option value="">Select Branch</option>
+          <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+        </select>
+        <small *ngIf="f['branchId'].touched && f['branchId'].invalid" class="text-danger">Required</small>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label>Number of Seats *</label>
+        <input class="form-control custom-focus" type="number" formControlName="numberOfSeats" />
+        <small *ngIf="f['numberOfSeats'].hasError('required')" class="text-danger">Required</small>
+        <small *ngIf="f['numberOfSeats'].hasError('pattern')" class="text-danger">Only numbers allowed</small>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label>Lab Equipment *</label><br />
+        <div *ngFor="let eq of equipmentOptions">
+          <input type="checkbox" class="custom-focus" [value]="eq" (change)="onEquipmentChange($event)" />
+          {{ eq }}
+        </div>
+        <small *ngIf="f['labEquipment'].touched && f['labEquipment'].invalid" class="text-danger">Select at least one</small>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label>Operational Days *</label><br />
+        <div *ngFor="let day of days">
+          <input type="checkbox" [value]="day" (change)="onDayChange($event)" />
+          {{ day }}
+        </div>
+        <small *ngIf="f['labDays'].touched && f['labDays'].invalid" class="text-danger">Select at least one</small>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label>Start Time *</label>
+        <input type="time" class="form-control custom-focus" formControlName="startTime" />
+        <small *ngIf="f['startTime'].touched && f['startTime'].invalid" class="text-danger">Required</small>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label>End Time *</label>
+        <input type="time" class="form-control custom-focus" formControlName="endTime" />
+        <small *ngIf="f['endTime'].touched && f['endTime'].invalid" class="text-danger">Required</small>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label>Lab Manager *</label>
+        <select class="form-control custom-focus" formControlName="labManagerId">
+          <option value="">Select Manager</option>
+          <option *ngFor="let mgr of staff" [value]="mgr.id">{{ mgr.name }}</option>
+        </select>
+        <small *ngIf="f['labManagerId'].touched && f['labManagerId'].invalid" class="text-danger">Required</small>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label>Status *</label>
+        <select class="form-control custom-focus" formControlName="status">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+  
+    </div>
+  
+    <div class="text-end mt-3">
+      <button class="btn btn-primary" [disabled]="labForm.invalid">Save Lab</button>
+    </div>
+  </form>
+</div>

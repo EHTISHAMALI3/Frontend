@@ -1,0 +1,213 @@
+<!----------tabs------------>
+<div class="tab-cards">
+  <div class="row gy-3">
+      <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="card active" routerLink="/admin/add-user">
+              <p>Add a New User</p>
+          </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="card " routerLink="/admin/bulk-users-import">
+              <p>Bulk User Import/Update</p>
+          </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="card" routerLink="/admin/access-management">
+              <p>Access Rights Management</p>
+          </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-12">
+          <div class="card " routerLink="/admin/users-list">
+              <p>Users Lists</p>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="dashboard-form">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="row gy-3">
+        <!-- User Type -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">User Type</label>
+          <select class="form-control custom-focus" formControlName="userTypeId">
+            <option value="">Select Type</option>
+            <option value="1">Student</option>
+            <option value="2">Employee</option>
+          </select>
+        </div>
+  
+        <!-- User ID -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">User ID</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="userId"
+            maxlength="5"
+            (keypress)="allowOnlyNumbers($event)"
+          />
+          <div *ngIf="userForm.get('userId')?.invalid && userForm.get('userId')?.touched" class="text-danger">
+            <small *ngIf="userForm.get('userId')?.errors?.['required']">User ID is required.</small>
+            <small *ngIf="userForm.get('userId')?.errors?.['pattern']">Only numbers are allowed.</small>
+            <small *ngIf="userForm.get('userId')?.errors?.['maxlength']">Maximum 5 digits allowed.</small>
+          </div>
+        </div>
+        
+  
+        <!-- First Name -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-control" formControlName="firstName" />
+          <small *ngIf="userForm.get('firstName')?.errors?.['firstName']">FirstName is required.</small>
+        </div>
+  
+        <!-- Last Name -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-control" formControlName="lastName" />
+          <small class="text-danger" *ngIf="f['lastName'].touched && f['lastName'].invalid">
+            LastName is required
+          </small>        
+        </div>
+  
+        <!-- Email -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-control" formControlName="email" />
+          <small class="text-danger" *ngIf="f['email'].touched && f['email'].invalid">
+            Enter a valid email
+          </small>
+        </div>
+  
+        <!-- Phone -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">Phone Number</label>
+          <input type="text" class="form-control" formControlName="phoneNumber" />
+          <small class="text-danger" *ngIf="f['phoneNumber'].touched && f['phoneNumber'].invalid">
+            PhoneNumber is required
+          </small>
+        </div>
+  
+  
+        <!-- State -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">State</label>
+          <input type="text" class="form-control" formControlName="state" />
+        </div>
+  
+        <!-- Province -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">Province</label>
+          <input type="text" class="form-control" formControlName="province" />
+        </div>
+  
+  <!-- City -->
+  <div class="col-xl-3 col-lg-6 col-md-12">
+    <div class="mb-3">
+      <label class="form-label">City:</label>
+      <select class="form-control custom-focus" formControlName="cityId">
+        <option value="">Select Type</option>
+        <option *ngFor="let city of citieList" [value]="city.cityId">
+          {{ city.cityName }}
+        </option>
+      </select>
+      <small class="text-danger" *ngIf="f['cityId'].touched && f['cityId'].invalid">
+        Institution Type is required
+      </small>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6 col-md-12">
+    <div class="mb-3">
+      <label class="form-label">Country:</label>
+      <select class="form-control custom-focus" formControlName="countryId">
+        <option value="">Select Type</option>
+        <option *ngFor="let country of countriesList" [value]="country.countryId">
+          {{ country.countryName }}
+        </option>
+      </select>
+      <small class="text-danger" *ngIf="f['countryId'].touched && f['countryId'].invalid">
+        Institution Type is required
+      </small>
+    </div>
+  </div>
+  
+        <!-- Address -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">Address</label>
+          <input type="text" class="form-control" formControlName="address" />
+        </div>
+  
+        <!-- Joining Date -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">Hiring/Joining Date</label>
+          <input type="date" class="form-control" formControlName="joiningDate" />
+        </div>
+  
+        <!-- Assign Institute -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">Assign Institute</label>
+          <select class="form-control custom-focus" formControlName="institutionId">
+            <option *ngFor="let inst of institutionsList" [value]="inst.institutionId">{{ inst.institutionName }}</option>
+          </select>
+        </div>
+  
+        <!-- Assign Branch -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">Assign Branch</label>
+          <select class="form-control custom-focus" formControlName="branchId">
+            <option *ngFor="let branch of branchList" [value]="branch.branchId">{{ branch.branchName }}</option>
+          </select>
+        </div>
+  
+        <!-- Assign Lab -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">Assign Lab</label>
+          <select class="form-control custom-focus" formControlName="">
+            <option *ngFor="let lab of labList" [value]="lab.id">{{ lab.name }}</option>
+          </select>
+        </div>
+  
+        <!-- User Roles -->
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <label class="form-label">User Roles</label>
+          <select class="form-control custom-focus" formControlName="roleId">
+            <option value="1">Learner</option>
+            <option value="2">Instructor</option>
+            <option value="3">Manager</option>
+            <option value="4">Admin</option>
+            <option value="5">SuperAdmin</option>
+          </select>
+        </div>
+        
+  
+        <!-- Grade (Student only) -->
+        <ng-container *ngIf="userType === '1'" >
+          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" [ngStyle]="{'position':'relative','bottom':'5px'}">
+            <label class="form-label">Grade <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="grade" />
+          </div>
+        </ng-container>
+        <!-- <ng-template #placeholder2>
+          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" style="visibility: hidden;"></div>
+        </ng-template> -->
+  
+        <!-- Designation (Employee only) -->
+        <ng-container *ngIf="userType === '2'" >
+          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" [ngStyle]="{'position':'relative','bottom':'5px'}">
+            <label class="form-label">Designation / Job Title <span class="text-danger">*</span></label>
+            <input type="text" class="form-control custom-focus" formControlName="designation" />
+          </div>
+        </ng-container>
+        <!-- <ng-template #placeholder1>
+          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" style="visibility: hidden;"></div>
+        </ng-template> -->
+      </div>
+  
+      <!-- Buttons -->
+      <div class="mt-4 d-flex justify-content-end gap-3">
+        <button type="button" class="btn btn-outline-primary">Discard</button>
+        <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">Save</button>
+      </div>
+    </form>
+  </div>
+  
