@@ -22,7 +22,7 @@ export class HidayahHomeComponent implements OnInit{
     private router:Router,
     private searchService: SearchService,
     // private hidayahService: HidayahService,
-     private sanitizer: DomSanitizer
+    //  private sanitizer: DomSanitizer
     )
     {}
   ngOnInit() {

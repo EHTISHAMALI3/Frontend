@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } 
 import { GenericApiService } from '../services/generic-api-service';
 import { NotificationsService } from '../../../../Shared/services/notifications.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-compound-board-content',
@@ -31,7 +32,8 @@ export class AddCompoundBoardContentComponent implements OnInit {
     private fb: FormBuilder,
     private API: GenericApiService<any>,
     private DOM_SANITIZER: DomSanitizer,
-    private NOTIFICATION_SERVICE:NotificationsService
+    private NOTIFICATION_SERVICE:NotificationsService,
+    private SPINNER:NgxSpinnerService
   ) {
     this.COMPOUND_FORM = this.fb.group({
       Name: ['', [Validators.required, Validators.maxLength(20)]],
@@ -123,25 +125,31 @@ export class AddCompoundBoardContentComponent implements OnInit {
     }
 
     if (this.IS_EDITING && this.SELECTED_ID) {
+      this.SPINNER.show()
       this.API.UPDATE('CompoundLetters', this.SELECTED_ID, formData).subscribe({
         next :(response)=>{
           console.log("<------Response------>",response)
           this.NOTIFICATION_SERVICE.success(response.respMsg);
           this.RESETFORM();
           this.LOADDATA();
+          this.SPINNER.hide()
         },
         error: (err)=>{
+          this.SPINNER.hide()
           console.log("<------Error Handling IsEditing---->",err)
         }
       });
     } else {
+      this.SPINNER.show()
       this.API.CREATE('CompoundLetters', formData).subscribe({
         next:(response)=>{
           this.NOTIFICATION_SERVICE.success(response.respMsg);
           this.RESETFORM();
           this.LOADDATA();
+          this.SPINNER.hide()
         },
         error: (err)=>{
+          this.SPINNER.hide()
           console.log("<-------Create Api Error------>",)
         }
       });
@@ -180,26 +188,31 @@ export class AddCompoundBoardContentComponent implements OnInit {
   }
   DELETE(id: number): void {
     if (confirm('Are you sure you want to permanently delete this letter?')) {
+      this.SPINNER.show()
       this.API.DELETE('CompoundLetters', id).subscribe({
         next: (response) => {
           this.NOTIFICATION_SERVICE.success(response.respMsg);
           this.LOADDATA();
+          this.SPINNER.hide()
         },
         error: () => {
+          this.SPINNER.hide()
           // this.NO.error('Failed to delete letter');
         }
       });
     }
   }
   TOGGLESTATUS(ID: number){
-
+    this.SPINNER.show()
     this.API.DELETE('CompoundLetters', ID).subscribe({
       next: (response) => {
         this.NOTIFICATION_SERVICE.success(response.respMsg);
         // this.toastr.success(`Status updated to ${updatedLetter.status ? 'Active' : 'Inactive'}`);
         this.LOADDATA();
+        this.SPINNER.hide()
       },
       error: (err) => {
+        this.SPINNER.hide();
         // this.toastr.error('Failed to update status');
       }
     });

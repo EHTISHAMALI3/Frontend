@@ -1,5 +1,5 @@
-export interface PaginatedResponse<T> {
-    items: T[];
-    totalRecords: number;
-  }
+// export interface PaginatedResponse<T> {
+//     items: T[];
+//     totalRecords: number;
+//   }
   
