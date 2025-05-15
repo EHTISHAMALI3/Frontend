@@ -114,6 +114,7 @@ export class AddBranchComponent implements OnInit,OnDestroy {
       next: (res:any) => {
         if (res.respCode === 200) {
           this.spinner.hide();
+          this.branchForm.reset(this.branchForm.value)
           this.notificationService.success(res.respMsg)
         }
       },

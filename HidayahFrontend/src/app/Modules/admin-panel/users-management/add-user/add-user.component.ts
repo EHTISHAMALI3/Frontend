@@ -10,7 +10,7 @@ import { BranchService } from '../../institution-management/services/branch.serv
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationsService } from '../../../../Shared/services/notifications.service';
 import { User } from '../../../../Models/User';
-const phonePattern = /^(03[0-9]{9}|0[1-9]{2}-?[0-9]{6,7})$/;
+const phonePattern = /^(0[0-9]{9}|0[1-9]{2}-?[0-9]{6,7})$/;
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 @Component({
   selector: 'app-add-user',
@@ -117,7 +117,7 @@ export class AddUserComponent implements OnInit,OnDestroy {
     this.user.createUsers(user).subscribe(
       {
         next: (res:any) => {
-          if (res.respCode === 200) {
+          if (res.respCode === 201) {
             this.spinner.hide();
             this.notificationService.success(res.respMsg)
           }

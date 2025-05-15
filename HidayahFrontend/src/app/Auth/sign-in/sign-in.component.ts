@@ -72,17 +72,16 @@ export class SignInComponent implements OnInit{
             this.spinner.hide(); // Hide loader after a delay
             this.notificationService.success(response.respMsg)
       },
-      error: (err) => {
-        console.log("<------Error----->",err)
-        if(err.error.message){
-          this.spinner.hide(); // Hide loader after a delay
-          this.notificationService.error(err.error.message)
-        }
-        else{
-          this.notificationService.error(err.error.respMsg)
-          this.spinner.hide(); // Hide loader after a delay
-        }
-      }
+          error: (err) => {
+      console.log("<------Error----->", err);
+
+      this.spinner.hide(); // Hide loader immediately for both cases
+
+      const errorMsg = err?.error?.message || err?.error?.respMsg || "An unexpected error occurred.";
+
+      this.notificationService.error(errorMsg);
+    }
+
     });
   }
   

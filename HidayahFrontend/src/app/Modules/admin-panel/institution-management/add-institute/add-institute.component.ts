@@ -96,6 +96,7 @@ export class AddInstituteComponent implements OnInit,OnDestroy {
       next: (res:any) => {
         if (res.respCode === 200) {
           this.spinner.hide();
+          this.institutionForm.reset(this.institutionForm.value)
           this.notificationService.success(res.respMsg)
         }
       },
@@ -105,6 +106,7 @@ export class AddInstituteComponent implements OnInit,OnDestroy {
       }
   })
   }
+
   getInstituteType(){
     this.subscription$=this.institution.getAllInstituteTypes().subscribe({
       next: (res) => {
@@ -117,6 +119,7 @@ export class AddInstituteComponent implements OnInit,OnDestroy {
       }
     });
   }
+
   getCity(){
     this.subscription$=this.institution.getAllCity().subscribe({
       next: (res) => {
@@ -129,6 +132,7 @@ export class AddInstituteComponent implements OnInit,OnDestroy {
       }
     });
   }
+  
   getCountry(){
     this.subscription$=this.institution.getAllCountry().subscribe({
       next: (res) => {

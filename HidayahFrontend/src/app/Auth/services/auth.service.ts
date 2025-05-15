@@ -60,8 +60,8 @@ export class AuthService {
       .pipe(
         tap((response:any) => {
           if (IS_REMEMBER_ME_CHECKED) {
-            // console.log("<-------Response------->",response)
-            this.SET_TOKEN_LOCAL_STORAGE(response.respData.token.token);
+            console.log("<-------Response------->",response)
+            this.SET_TOKEN_LOCAL_STORAGE(response.respData.token);
             
             // const ENCODED_PAYLOAD =this.decodeJwt(response.respData.token); // From your earlier JWT decode method
             // console.log("<--------Encoded payload---------->",ENCODED_PAYLOAD);
@@ -71,21 +71,21 @@ export class AuthService {
             // const ROLE_ID = this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET("ROLE_ID",ENCODED_PAYLOAD.ROLE_ID);
             // const IS_LOCKED =  this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET("IS_LOCKED",ENCODED_PAYLOAD.IS_LOCKED);
             // const FAILED_LOGIN_ATTEMPTS =  this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET("FAILED_LOGIN_ATTEMPTS",ENCODED_PAYLOAD.FAILED_LOGIN_ATTEMPTS);
-            this.SET_USER_NAME_LOCAL_STORAGE(response.respData.token.userName);
-            this.SET_EMAIl_LOCAL_STORAGE(response.respData.token.email);
-            this.SET_ROLE_ID_LOCAL_STORAGE(response.respData.token.role);
-            this.SET_IS_LOCKED_LOCAL_STORAGE(response.respData.token.isLocked);
-            this.SET_FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE(response.respData.token.failedLoginAttempts);
+            this.SET_USER_NAME_LOCAL_STORAGE(response.respData.userName);
+            this.SET_EMAIl_LOCAL_STORAGE(response.respData.email);
+            this.SET_ROLE_ID_LOCAL_STORAGE(response.respData.role);
+            this.SET_IS_LOCKED_LOCAL_STORAGE(response.respData.isLocked);
+            this.SET_FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE(response.respData.failedLoginAttempts);
 
           } else {
             // const ENCODED_PAYLOAD =this.decodeJwt(response.respData.token); // From your earlier JWT decode method
-            this.SET_TOEN_SESSION_STORAGE(response.respData.token.token);
+            this.SET_TOEN_SESSION_STORAGE(response.respData.token);
             // const USER_NAME =  this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET("USER_NAME",ENCODED_PAYLOAD.USER_NAME);
             // const ROLE_ID = this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET("ROLE_ID",ENCODED_PAYLOAD.ROLE_ID);
-            this.SET_USER_NAME_SESSION_STORAGE(response.respData.token.userName);
-            this.SET_ROLE_ID_SESSION_STORAGE(response.respData.token.role);
-            this.SET_IS_LOCKED_SESSION_STORAGE(response.respData.token.isLocked);
-            this.SET_FAILED_LOGIN_ATTEMPTS_SESSION_STORAGE(response.respData.token.failedLoginAttempts);
+            this.SET_USER_NAME_SESSION_STORAGE(response.respData.userName);
+            this.SET_ROLE_ID_SESSION_STORAGE(response.respData.role);
+            this.SET_IS_LOCKED_SESSION_STORAGE(response.respData.isLocked);
+            this.SET_FAILED_LOGIN_ATTEMPTS_SESSION_STORAGE(response.respData.failedLoginAttempts);
           }
           
           
