@@ -30,6 +30,7 @@ export class UserLayoutComponent implements OnInit{
   
   if (encryptedUsername) {
     this.USER_NAME = this.AUTH_SERVICE.DECRYPT(encryptedUsername);
+        console.log("<------encryptedUsername----->",this.USER_NAME)
     this.USER_ROLE_ID = this.AUTH_SERVICE.DECRYPT(roleId ?? '');
 
     // Optional redirect to 'home' if user landed on 'hidayah'

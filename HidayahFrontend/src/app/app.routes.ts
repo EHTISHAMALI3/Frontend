@@ -5,13 +5,14 @@ import { HomeLayoutComponent } from './Layout/home-layout/home-layout.component'
 import { AdminLayoutComponent } from './Layout/admin-layout/admin-layout.component';
 import { UserLayoutComponent } from './Layout/user-layout/user-layout.component';
 import { UserProfileComponent } from './Modules/user-panel/user-profile/user-profile.component';
+import { AdminAuthGuard } from './AuthGuard/admin.guard';
 
 export const routes: Routes = [
     {path:'',pathMatch:'full',redirectTo:'sign-in'},
     {
         path:'admin',
         component:AdminLayoutComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AdminAuthGuard],
         children:[
             {
                 path: '',

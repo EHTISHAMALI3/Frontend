@@ -35,7 +35,7 @@ export class HomeLayoutComponent {
     
     if (encryptedUsername) {
       this.USER_NAME = this.AUTH_SERVICE.DECRYPT(encryptedUsername);
-      this.USER_ROLE_ID = this.AUTH_SERVICE.DECRYPT(roleId ?? '');
+      this.USER_ROLE_ID = roleId ?? '';
   
       // Optional redirect to 'home' if user landed on 'hidayah'
       if (this.ROUTER.url === '/hidayah' || this.ROUTER.url === '/hidayah/') {

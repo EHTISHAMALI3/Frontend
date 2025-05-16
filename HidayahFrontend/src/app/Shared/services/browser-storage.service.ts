@@ -6,13 +6,8 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 })
 export class BrowserStorageService {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
-  SAFE_LOCAL_STORAGE_GET(key: string): string | null {
-    if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem(key);
-    }
-    return null;
-  }
-  
+
+
   SAFE_LOCAL_STORAGE_SET(key: string, value: string): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(key, value);
@@ -24,7 +19,12 @@ export class BrowserStorageService {
       sessionStorage.setItem(key, value);
     }
   }
-  
+    SAFE_LOCAL_STORAGE_GET(key: string): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(key);
+    }
+    return null;
+  }
   SAFE_SESSION_STORAGE_GET(key: string): string | null {
     if (isPlatformBrowser(this.platformId)) {
       return sessionStorage.getItem(key);

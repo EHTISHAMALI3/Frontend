@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { SharedModule } from '../../../../Shared/shared.module';
 import { NotificationsService } from '../../../../Shared/services/notifications.service';
-const phonePattern = /^(03[0-9]{9}|0[4-9][0-9]{8,9})$/;
+const phonePattern = /^((0\d{2}[-\s]?\d{7,8})|(1\d{2}[-\s]?\d{6,8})|(03\d{9}))$/;
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const webPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?$/i;
 @Component({
@@ -89,23 +89,40 @@ export class AddInstituteComponent implements OnInit,OnDestroy {
     return this.institutionForm.controls;
   }
 
-  onSubmit() {
-    if (this.institutionForm.invalid) return;
-    this.spinner.show(); // Show loader before making the request
-    this.subscription$=this.institution.saveInstitute(this.institutionForm.value).subscribe({
-      next: (res:any) => {
-        if (res.respCode === 200) {
-          this.spinner.hide();
-          this.institutionForm.reset(this.institutionForm.value)
-          this.notificationService.success(res.respMsg)
-        }
-      },
-      error: (err)  =>{
-        this.notificationService.error(err.error.respMsg)
-        this.spinner.hide(); // Hide loader after a delay
+onSubmit() {
+  if (this.institutionForm.invalid) return;
+
+  this.spinner.show(); // Show loader
+
+  this.subscription$ = this.institution.saveInstitute(this.institutionForm.value).subscribe({
+    next: (res: any) => {
+      if (res.respCode === 200) {
+        this.spinner.hide();
+        this.institutionForm.reset();
+        this.notificationService.success(res.respMsg);
       }
-  })
-  }
+    },
+    error: (err) => {
+      console.log("<-------Error Message------->", err);
+
+      // Handle known validation errors
+      if (err.status === 400 && err.error?.errors) {
+        const validationErrors = err.error.errors;
+        const errorMessages = Object.values(validationErrors).flat(); // Flattens multiple error arrays
+        errorMessages.forEach((msg:any) => this.notificationService.error(msg));
+      } 
+      // Handle generic errors
+      else if (err.error?.respMsg) {
+        this.notificationService.error(err.error.respMsg);
+      } else {
+        this.notificationService.error("An unexpected error occurred.");
+      }
+
+      this.spinner.hide(); // Hide loader
+    }
+  });
+}
+
 
   getInstituteType(){
     this.subscription$=this.institution.getAllInstituteTypes().subscribe({

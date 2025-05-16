@@ -11,6 +11,7 @@ import { SharedModule } from '../../../../Shared/shared.module';
 import { NotificationsService } from '../../../../Shared/services/notifications.service';
 const pakPhoneRegex = /^(03[0-9]{9}|0[1-9]{2}-?[0-9]{6,7})$/;
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const phonePattern = /^((03\d{9})|(0\d{2}[-\s]?\d{7,8})|(1\d{2}[-\s]?\d{6,8}))$/;
 
 @Component({
   selector: 'app-add-branch',
@@ -43,7 +44,7 @@ export class AddBranchComponent implements OnInit,OnDestroy {
       branchCode: [''],
       branchManagerId: ['', Validators.required],
       branchEmail: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
-      branchPhone: ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]],
+      branchPhone: ['', [Validators.required, Validators.pattern(phonePattern)]],
       branchAddress: ['', Validators.required],
       street: [''],
       cityId: [''],
@@ -107,23 +108,59 @@ export class AddBranchComponent implements OnInit,OnDestroy {
       }
     });
   }
-  onSubmit() {
-    this.spinner.show()
-    if (this.branchForm.invalid) return;
-    this.subscription$=this.branchService.saveBranch(this.branchForm.value).subscribe({
-      next: (res:any) => {
-        if (res.respCode === 200) {
-          this.spinner.hide();
-          this.branchForm.reset(this.branchForm.value)
-          this.notificationService.success(res.respMsg)
-        }
-      },
-      error: (err)  =>{
-        this.notificationService.error(err.error.respMsg)
-        this.spinner.hide(); // Hide loader after a delay
-      }
-    })
+onSubmit() {
+  this.spinner.show();
+
+  if (this.branchForm.invalid) {
+    this.spinner.hide();
+    return;
   }
+
+  this.subscription$ = this.branchService.saveBranch(this.branchForm.value).subscribe({
+    next: (res: any) => {
+      if (res.respCode === 200) {
+        this.spinner.hide();
+        this.branchForm.reset();
+        this.notificationService.success(res.respMsg);
+      }
+    },
+    error: (err) => {
+      console.error("API Error:", err);
+      this.spinner.hide();
+
+      // Handle 400 validation errors
+      if (err.status === 400 && err.error?.errors) {
+        const validationErrors = err.error.errors;
+        let messages: string[] = [];
+
+        for (let field in validationErrors) {
+          if (validationErrors.hasOwnProperty(field)) {
+            const fieldMessages = validationErrors[field];
+            fieldMessages.forEach((msg: string) => {
+              // Format: "FieldName: Message"
+              const formattedField = field.startsWith('$.') ? field.replace('$.', '') : field;
+              messages.push(`${formattedField}: ${msg}`);
+            });
+          }
+        }
+
+        if (messages.length > 0) {
+         this.notificationService.error(messages.join('\n'));
+        } else {
+          this.notificationService.error('Validation failed. Please check your input.');
+        }
+      }
+      // Handle other errors
+      else if (err.error?.title) {
+        this.notificationService.error(err.error.title);
+      } else {
+        this.notificationService.error(err.message || 'Something went wrong. Please try again.');
+      }
+    }
+  });
+}
+
+
 
   get f() {
     return this.branchForm.controls;

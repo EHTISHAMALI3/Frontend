@@ -12,6 +12,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from '../Auth/services/auth.service';
 import { Router } from '@angular/router';
 import { NotificationsService } from '../Shared/services/notifications.service';
+import { STORAGE_KEYS } from '../Models/storage-keys';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -45,9 +46,9 @@ export class AuthInterceptor implements HttpInterceptor {
             // The server might return the token as "Bearer <token>" so extract if necessary.
             const tokenParts = newToken.split(' ');
             if (tokenParts.length > 1) {
-              this.authService.SET_TOKEN_LOCAL_STORAGE(tokenParts[1]);
+              this.authService.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.TOKEN,tokenParts[1]);
             } else {
-              this.authService.SET_TOKEN_LOCAL_STORAGE(newToken);
+              this.authService.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.TOKEN,newToken);
             }
           }
         }

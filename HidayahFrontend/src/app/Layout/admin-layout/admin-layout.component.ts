@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../Auth/services/auth.service';
 import { BrowserStorageService } from '../../Shared/services/browser-storage.service';
+import { STORAGE_KEYS } from '../../Models/storage-keys';
 
 @Component({
   selector: 'app-admin-layout',
@@ -14,6 +15,12 @@ import { BrowserStorageService } from '../../Shared/services/browser-storage.ser
 })
 export class AdminLayoutComponent {
  userName:any
+
+ CAN_VIEW:any;
+ CAN_ADD:any;
+ CAN_UPDATE:any;
+ CAN_DELETE:any;
+
   constructor(
     private ROUTER:Router,
     private AUTH_SERVICE:AuthService,
@@ -24,11 +31,34 @@ export class AdminLayoutComponent {
     const encryptedUsername =
       this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_GET("USER_NAME") ||
       this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_GET("USER_NAME");
-  
+    const ENCRYPTED_CAN_VIEW = 
+      this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_GET(STORAGE_KEYS.CAN_VIEW) ||
+      this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_GET(STORAGE_KEYS.CAN_VIEW);
+    const ENCRYPTED_CAN_ADD = 
+      this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_GET(STORAGE_KEYS.CAN_ADD) ||
+      this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_GET(STORAGE_KEYS.CAN_ADD);
+    const ENCRYPTED_CAN_UPDATE = 
+    this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_GET(STORAGE_KEYS.CAN_UPDATE) ||
+    this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_GET(STORAGE_KEYS.CAN_UPDATE);
+    const ENCRYPTED_CAN_DELETE = 
+    this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_GET(STORAGE_KEYS.CAN_DELETE) ||
+    this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_GET(STORAGE_KEYS.CAN_DELETE);
     this.userName = encryptedUsername
       ? this.AUTH_SERVICE.DECRYPT(encryptedUsername)
       : '';
-  
+      this.CAN_VIEW = ENCRYPTED_CAN_VIEW
+      ? this.AUTH_SERVICE.DECRYPT(ENCRYPTED_CAN_VIEW)
+      : '';
+      this.CAN_ADD = ENCRYPTED_CAN_ADD
+      ? this.AUTH_SERVICE.DECRYPT(ENCRYPTED_CAN_ADD)
+      : '';
+      this.CAN_UPDATE = ENCRYPTED_CAN_UPDATE
+      ? this.AUTH_SERVICE.DECRYPT(ENCRYPTED_CAN_UPDATE)
+      : '';
+      this.CAN_DELETE = ENCRYPTED_CAN_DELETE
+      ? this.AUTH_SERVICE.DECRYPT(ENCRYPTED_CAN_DELETE)
+      : '';
+      console.log("<------------->",this.CAN_DELETE)
     // Check both storages for "roleid"
 
   }

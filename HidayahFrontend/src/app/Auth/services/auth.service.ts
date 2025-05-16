@@ -5,18 +5,13 @@ import { Observable,tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { BrowserStorageService } from '../../Shared/services/browser-storage.service';
 import { Router } from '@angular/router';
+import { STORAGE_KEYS } from '../../Models/storage-keys';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // userRoleId:any;
-  TOKEN_KEY = 'ACCESS_TOKEN';
-  USER_NAME="USER_NAME";
-  EMAIL= "EMAIL";
-  ROLE_ID = "ROLE_ID";
-  IS_LOCKED = "IS_LOCKED";
-  FAILED_LOGIN_ATTEMPTS = "FAILED_LOGIN_ATTEMPTS";
+
 
   constructor(
     private HTTP: HttpClient,
@@ -61,7 +56,7 @@ export class AuthService {
         tap((response:any) => {
           if (IS_REMEMBER_ME_CHECKED) {
             console.log("<-------Response------->",response)
-            this.SET_TOKEN_LOCAL_STORAGE(response.respData.token);
+            // this.SET_TOKEN_LOCAL_STORAGE(response.respData.token);
             
             // const ENCODED_PAYLOAD =this.decodeJwt(response.respData.token); // From your earlier JWT decode method
             // console.log("<--------Encoded payload---------->",ENCODED_PAYLOAD);
@@ -71,21 +66,42 @@ export class AuthService {
             // const ROLE_ID = this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET("ROLE_ID",ENCODED_PAYLOAD.ROLE_ID);
             // const IS_LOCKED =  this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET("IS_LOCKED",ENCODED_PAYLOAD.IS_LOCKED);
             // const FAILED_LOGIN_ATTEMPTS =  this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET("FAILED_LOGIN_ATTEMPTS",ENCODED_PAYLOAD.FAILED_LOGIN_ATTEMPTS);
-            this.SET_USER_NAME_LOCAL_STORAGE(response.respData.userName);
-            this.SET_EMAIl_LOCAL_STORAGE(response.respData.email);
-            this.SET_ROLE_ID_LOCAL_STORAGE(response.respData.role);
-            this.SET_IS_LOCKED_LOCAL_STORAGE(response.respData.isLocked);
-            this.SET_FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE(response.respData.failedLoginAttempts);
+            // this.SET_USER_NAME_LOCAL_STORAGE(response.respData.userName);
+            // this.SET_EMAIl_LOCAL_STORAGE(response.respData.email);
+            // this.SET_ROLE_ID_LOCAL_STORAGE(response.respData.role);
+            // this.SET_IS_LOCKED_LOCAL_STORAGE(response.respData.isLocked);
+            // this.SET_FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE(response.respData.failedLoginAttempts);
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.TOKEN,response.respData.token)
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.USER_NAME,response.respData.userName);
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.EMAIL,response.respData.email);
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.ROLE_ID,response.respData.role)
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.IS_LOCKED,response.respData.isLocked);
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.FAILED_LOGIN_ATTEMPTS,response.respData.failedLoginAttempts)
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.CAN_VIEW,response.respData.canView)
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.CAN_ADD,response.respData.canAdd)
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.CAN_UPDATE,response.respData.canUpdate)
+            this.SET_IN_STORAGE("LOCAL",STORAGE_KEYS.CAN_DELETE,response.respData.canDelete)
+
 
           } else {
             // const ENCODED_PAYLOAD =this.decodeJwt(response.respData.token); // From your earlier JWT decode method
-            this.SET_TOEN_SESSION_STORAGE(response.respData.token);
+            // this.SET_TOEN_SESSION_STORAGE(response.respData.token);
             // const USER_NAME =  this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET("USER_NAME",ENCODED_PAYLOAD.USER_NAME);
             // const ROLE_ID = this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET("ROLE_ID",ENCODED_PAYLOAD.ROLE_ID);
-            this.SET_USER_NAME_SESSION_STORAGE(response.respData.userName);
-            this.SET_ROLE_ID_SESSION_STORAGE(response.respData.role);
-            this.SET_IS_LOCKED_SESSION_STORAGE(response.respData.isLocked);
-            this.SET_FAILED_LOGIN_ATTEMPTS_SESSION_STORAGE(response.respData.failedLoginAttempts);
+            // this.SET_USER_NAME_SESSION_STORAGE(response.respData.userName);
+            // this.SET_ROLE_ID_SESSION_STORAGE(response.respData.role);
+            // this.SET_IS_LOCKED_SESSION_STORAGE(response.respData.isLocked);
+            // this.SET_FAILED_LOGIN_ATTEMPTS_SESSION_STORAGE(response.respData.failedLoginAttempts);
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.TOKEN,response.respData.token)
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.USER_NAME,response.respData.userName);
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.EMAIL,response.respData.email);
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.ROLE_ID,response.respData.role)
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.IS_LOCKED,response.respData.isLocked);
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.FAILED_LOGIN_ATTEMPTS,response.respData.failedLoginAttempts);
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.CAN_VIEW,response.respData.canView)
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.CAN_ADD,response.respData.canAdd)
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.CAN_UPDATE,response.respData.canUpdate)
+            this.SET_IN_STORAGE("SESSION",STORAGE_KEYS.CAN_DELETE,response.respData.canDelete)
           }
           
           
@@ -98,10 +114,12 @@ export class AuthService {
   }
 
   REDIRECT_BASED_ON_ROLE(): void {
-    const ROLE_ID = this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_GET('ROLE_ID') ||
-                   this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_GET('ROLE_ID');
-    const USER_ROLE_ID = this.DECRYPT(ROLE_ID ?? '')
-    if (USER_ROLE_ID === '5' || USER_ROLE_ID === '4') {
+    const ROLE_ID = this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_GET(STORAGE_KEYS.ROLE_ID) ||
+                   this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_GET(STORAGE_KEYS.ROLE_ID);
+    // const USER_ROLE_ID = this.DECRYPT(ROLE_ID ?? '')
+    const USER_ROLE_ID = ROLE_ID ?? ''
+    const ADMIN_ROLES = ['2', '3', '4', '5'];
+    if (ADMIN_ROLES.includes(USER_ROLE_ID)) {
       this.ROUTER.navigate(['/admin/add-institute']);
     } else {
       this.ROUTER.navigate(['/user/user-profile']);
@@ -124,25 +142,25 @@ export class AuthService {
   //   }
   // }
   
-  SET_TOKEN_LOCAL_STORAGE(TOKEN: string): void {
-    // localStorage.setItem(this.TOKEN_KEY, token);
-    this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(this.TOKEN_KEY, TOKEN)
-  }
+  // SET_TOKEN_LOCAL_STORAGE(TOKEN: string): void {
+  //   // localStorage.setItem(this.TOKEN_KEY, token);
+  //   this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(this.TOKEN_KEY, TOKEN)
+  // }
   // setSessionTokenInSession(token: string) {
   //   this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(this.TOKEN_KEY, token);
   // }
   
-  SET_TOEN_SESSION_STORAGE(TOKEN: string):void{
-    this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(this.TOKEN_KEY, TOKEN)
-  }
+  // SET_TOEN_SESSION_STORAGE(TOKEN: string):void{
+  //   this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(this.TOKEN_KEY, TOKEN)
+  // }
   GET_TOKEN(): string | null {
     if (typeof window !== 'undefined') {
       // First check sessionStorage (temporary login)
-      const SESSION_TOKEN = this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_GET(this.TOKEN_KEY);
+      const SESSION_TOKEN = this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_GET(STORAGE_KEYS.TOKEN);
       if (SESSION_TOKEN) return SESSION_TOKEN;
   
       // Fallback to localStorage (Remember Me)
-      return this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_GET(this.TOKEN_KEY);
+      return this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_GET(STORAGE_KEYS.TOKEN);
     }
     return null;
   }
@@ -167,39 +185,48 @@ IS_TOKEN_EXPIRED(TOKEN: string): boolean {
 }
 
  // set values in local storage
- SET_EMAIl_LOCAL_STORAGE(EMAIL:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.EMAIL}`,EMAIL);
-}
-SET_USER_NAME_LOCAL_STORAGE(USER_NAME:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.USER_NAME}`,USER_NAME)
-}
-SET_ROLE_ID_LOCAL_STORAGE(ROLE_ID:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.ROLE_ID}`,ROLE_ID);
+//  SET_EMAIl_LOCAL_STORAGE(EMAIL:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.EMAIL}`,EMAIL);
+// }
+// SET_USER_NAME_LOCAL_STORAGE(USER_NAME:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.USER_NAME}`,USER_NAME)
+// }
+// SET_ROLE_ID_LOCAL_STORAGE(ROLE_ID:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.ROLE_ID}`,ROLE_ID);
+// }
+
+// SET_IS_LOCKED_LOCAL_STORAGE(IS_LOCKED:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.IS_LOCKED}`,IS_LOCKED);
+// }
+// SET_FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE(FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.FAILED_LOGIN_ATTEMPTS}`,FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE);
+// }
+// // set values in session storage
+// SET_EMAIl_SESSION_STORAGE(EMAIL:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.EMAIL}`,EMAIL);
+// }
+// SET_USER_NAME_SESSION_STORAGE(USER_NAME:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.USER_NAME}`,USER_NAME);
+// }
+// SET_ROLE_ID_SESSION_STORAGE(ROLE_ID:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.ROLE_ID}`,ROLE_ID);
+// }
+
+// SET_IS_LOCKED_SESSION_STORAGE(IS_LOCKED:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.IS_LOCKED}`,IS_LOCKED);
+
+// }
+// SET_FAILED_LOGIN_ATTEMPTS_SESSION_STORAGE(FAILED_LOGIN_ATTEMPTS:string){
+//   this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.FAILED_LOGIN_ATTEMPTS}`,FAILED_LOGIN_ATTEMPTS);
+// }
+
+SET_IN_STORAGE(TYPE: 'LOCAL' | 'SESSION', KEY: string, VALUE: string): void {
+  if (TYPE === 'LOCAL') {
+    this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(KEY, VALUE);
+  } else {
+    this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(KEY, VALUE);
+  }
 }
 
-SET_IS_LOCKED_LOCAL_STORAGE(IS_LOCKED:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.IS_LOCKED}`,IS_LOCKED);
-}
-SET_FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE(FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_LOCAL_STORAGE_SET(`${this.FAILED_LOGIN_ATTEMPTS}`,FAILED_LOGIN_ATTEMPTS_LOCAL_STORAGE);
-}
-// set values in session storage
-SET_EMAIl_SESSION_STORAGE(EMAIL:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.EMAIL}`,EMAIL);
-}
-SET_USER_NAME_SESSION_STORAGE(USER_NAME:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.USER_NAME}`,USER_NAME);
-}
-SET_ROLE_ID_SESSION_STORAGE(ROLE_ID:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.ROLE_ID}`,ROLE_ID);
-}
-
-SET_IS_LOCKED_SESSION_STORAGE(IS_LOCKED:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.IS_LOCKED}`,IS_LOCKED);
-
-}
-SET_FAILED_LOGIN_ATTEMPTS_SESSION_STORAGE(FAILED_LOGIN_ATTEMPTS:string){
-  this.BROWSER_STORAGE_SERVICE.SAFE_SESSION_STORAGE_SET(`${this.FAILED_LOGIN_ATTEMPTS}`,FAILED_LOGIN_ATTEMPTS);
-}
 }
 
